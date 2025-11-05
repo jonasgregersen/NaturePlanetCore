@@ -10,4 +10,8 @@ public class DatabaseContext : DbContext
     {
         optionsBuilder.UseSqlServer("Server=tcp:10.10.132.118,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;");
     }
+
+    
+
+
 }
