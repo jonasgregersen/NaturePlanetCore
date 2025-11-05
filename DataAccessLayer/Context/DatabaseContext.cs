@@ -9,4 +9,8 @@ public class DatabaseContext : DbContext
         optionsBuilder.UseSqlServer("DefaultConnection");
         
     }
+
+    
+
+
 }
