@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NaturePlanetSolutionCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec8b4165ae49b0733fb0ca6ef8d382da3c6af7f5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37168a57811a697cc0bf899e2af2fc402d12a023")]
 [assembly: System.Reflection.AssemblyProductAttribute("NaturePlanetSolutionCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NaturePlanetSolutionCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

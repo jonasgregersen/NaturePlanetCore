@@ -1,15 +1,19 @@
-# Build output
+# Byg-output
 bin/
 obj/
 .vs/
 *.user
 *.suo
+*.cache
+
+# JetBrains Rider
+.idea/
+*.iml
 
 # Entity Framework
 Migrations/
-appsettings.*.json
 
-# Databases
+# Databaser
 *.db
 *.mdf
 *.ldf
