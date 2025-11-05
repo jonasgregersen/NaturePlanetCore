@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Entity Framework
+Migrations/
+appsettings.*.json
+
+# Databases
+*.db
+*.mdf
+*.ldf
+
+# OS filer
+.DS_Store
+Thumbs.db
