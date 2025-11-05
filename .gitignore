@@ -1,0 +1,27 @@
+# Byg-output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+
+# JetBrains Rider
+.idea/
+*.iml
+
+# Entity Framework
+Migrations/
+
+# Databaser
+*.db
+*.mdf
+*.ldf
+
+# OS filer
+.DS_Store
+Thumbs.db
+
+# Ignorer AssemblyInfo-filer genereret af build
+**/obj/**/AssemblyInfo.*
+**/obj/**/AssemblyInfoInputs.cache
