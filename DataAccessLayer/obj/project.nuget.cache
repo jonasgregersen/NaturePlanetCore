@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Gm4GJUgWPQ4=",
+  "dgSpecHash": "G3/y2G2xpq0=",
   "success": true,
   "projectFilePath": "/Users/jonasgregersen/RiderProjects/NaturePlanetSolutionCore/DataAccessLayer/DataAccessLayer.csproj",
   "expectedPackageFiles": [
@@ -10,11 +10,17 @@
     "/Users/jonasgregersen/.nuget/packages/microsoft.aspnetcore.components.forms/9.0.9/microsoft.aspnetcore.components.forms.9.0.9.nupkg.sha512",
     "/Users/jonasgregersen/.nuget/packages/microsoft.aspnetcore.components.web/9.0.9/microsoft.aspnetcore.components.web.9.0.9.nupkg.sha512",
     "/Users/jonasgregersen/.nuget/packages/microsoft.aspnetcore.metadata/9.0.9/microsoft.aspnetcore.metadata.9.0.9.nupkg.sha512",
-    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.9/microsoft.extensions.dependencyinjection.9.0.9.nupkg.sha512",
-    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.9/microsoft.extensions.dependencyinjection.abstractions.9.0.9.nupkg.sha512",
-    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.9/microsoft.extensions.logging.abstractions.9.0.9.nupkg.sha512",
-    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.options/9.0.9/microsoft.extensions.options.9.0.9.nupkg.sha512",
-    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.primitives/9.0.9/microsoft.extensions.primitives.9.0.9.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.entityframeworkcore/9.0.10/microsoft.entityframeworkcore.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.entityframeworkcore.abstractions/9.0.10/microsoft.entityframeworkcore.abstractions.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.entityframeworkcore.analyzers/9.0.10/microsoft.entityframeworkcore.analyzers.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.caching.abstractions/9.0.10/microsoft.extensions.caching.abstractions.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.caching.memory/9.0.10/microsoft.extensions.caching.memory.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.10/microsoft.extensions.dependencyinjection.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.10/microsoft.extensions.dependencyinjection.abstractions.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.logging/9.0.10/microsoft.extensions.logging.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.10/microsoft.extensions.logging.abstractions.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.options/9.0.10/microsoft.extensions.options.9.0.10.nupkg.sha512",
+    "/Users/jonasgregersen/.nuget/packages/microsoft.extensions.primitives/9.0.10/microsoft.extensions.primitives.9.0.10.nupkg.sha512",
     "/Users/jonasgregersen/.nuget/packages/microsoft.jsinterop/9.0.9/microsoft.jsinterop.9.0.9.nupkg.sha512"
   ],
   "logs": []
