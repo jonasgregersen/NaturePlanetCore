@@ -1,0 +1,50 @@
+/* === NAVBAR CONTAINER === */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* start fra venstre */
+    gap: 2rem; /* afstand mellem links */
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* === NAV ITEM === */
+.nav-item {
+    position: relative;
+}
+
+/* === NAV LINK === */
+.nav-link {
+    text-decoration: none;
+    color: #0b1e39; /* mørkeblå tekst */
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Hover-effekt på links */
+.nav-link:hover {
+    background-color: #2e8b57; /* grøn highlight */
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Active link styling (valgfri) */
+.nav-link.active {
+    background-color: #256d46;
+    color: #fff;
+}
+
+/* === RESPONSIV – holder dem horisontalt så længe muligt === */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+    .nav-link {
+        padding: 0.4rem 0.8rem;
+    }
+}
