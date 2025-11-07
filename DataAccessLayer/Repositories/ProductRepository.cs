@@ -5,7 +5,7 @@ namespace DataAccessLayer.Repositories;
 
 public class ProductRepository
 {
-    private DatabaseContext _context =  new DatabaseContext();
+    private readonly DatabaseContext _context;
 
     public void CreateProduct(string productName, int ean, string erpSource, bool active, string productCategory1,
         string productCategory2, string productCategory3, int quantityInBag, double productWeight,

@@ -29,5 +29,7 @@ public class Product
         ProductCategory3 = productCategory3;
     }
 
+    public Product() { }
+
     
 }
