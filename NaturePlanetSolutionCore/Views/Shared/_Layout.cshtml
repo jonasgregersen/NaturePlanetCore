@@ -11,26 +11,60 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NaturePlanetSolutionCore</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <div class="logo-container">
+        <a class="logo-ref" href="/index">
+            <img class="logo-img" src="Assets/Images/NaturePlanet_logo.svg"/>
+        </a>
+    </div>
+    <div class="search-container">
+        @using (@Html.BeginForm())
+        {
+            <input class="search-box" type="text" placeholder="Søg efter produkter"/>
+            <button class="search-button" type="submit">
+                <i class="search-icon">&#128269;</i>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        }
+    </div>
+    <div class="nav-container">
+        <ul class="nav-elements">
+            <li>
+                <div class="user-dropdown">
+                    <p>User</p>
+                    <div class="user-dropdown-content">
+                        <button class="login-button">Log ind</button>
+                        <a href="">Get username</a>
+                        <a href="">Glemt din adgangskode?</a>
+                        <a href="">Min profil</a>
+                        <a href="">Mine Ordrer</a>
+                        <a href="">Mine favoritter</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="language-dropdown">
+                    <p>Language</p>
+                    <div class="language-dropdown-content">
+                        <a href="">English</a>
+                        <a href="">Dansk</a>
+                        <a href="">Deutsch</a>
+                        <a href="">Français</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="region-container">
+                    <button class="region-button">Europe</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <nav class="category-nav">
+        <ul class="category-elements">
+            
+        </ul>
     </nav>
 </header>
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()

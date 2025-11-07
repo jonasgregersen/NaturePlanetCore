@@ -46,3 +46,17 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.language-dropdown-container {
+    display: none;
+}
+
+.language-dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.language-dropdown:hover .language-dropdown-content {
+    display: block;
+    
+}
