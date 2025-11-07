@@ -1,8 +1,8 @@
-﻿@model NaturePlanetSolutionCore.Models.ViewModels.RegisterViewModel
+﻿@model NaturePlanetSolutionCore.Models.ViewModels.LoginViewModel
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-6 col-lg-4 p-4 shadow rounded bg-white">
-        <h2 class="text-center mb-4 text-success">Create Account</h2>
+        <h2 class="text-center mb-4 text-success">Login</h2>
 
         <form asp-action="Register" method="post" novalidate>
             <div class="mb-3">
@@ -19,13 +19,13 @@
 
             <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-success btn-lg rounded-pill">
-                    Register
+                    Login
                 </button>
             </div>
 
             <div class="text-center mt-3">
-                <a asp-action="Login" class="text-decoration-none text-success fw-semibold">
-                    Already a user? Login here
+                <a asp-action="Register" class="text-decoration-none text-success fw-semibold">
+                    Not a user yet? Register here
                 </a>
             </div>
         </form>
