@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccessLayer.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using NaturePlanetSolutionCore.Models.ViewModels;
 
 namespace NaturePlanetSolutionCore.Controllers
 {
     public class UserController : Controller
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        private readonly UserManager<ApplicationUser> _userManager;
         public IActionResult Index()
         {
             return View();
@@ -23,7 +28,16 @@ namespace NaturePlanetSolutionCore.Controllers
                 return View(viewModel); 
             }
 
-            return View();
+            var user = new ApplicationUser
+            {
+                UserName = viewModel.Email,
+                Email = viewModel.Email,
+                
+            };
+
+            var createUser = await _userManager.CreateAsync(user, viewModel.Password);
+
+            return View(viewModel);
 
         }
 
@@ -40,6 +54,8 @@ namespace NaturePlanetSolutionCore.Controllers
             {
                 return View(viewModel);
             }
+
+            
 
             return View(viewModel);
         }

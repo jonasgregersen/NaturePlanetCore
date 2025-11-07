@@ -14,7 +14,8 @@ public class CategoryMenuViewComponent : ViewComponent
     public IViewComponentResult Invoke()
     {
         var categories = _context.Products
-            .Select(p => p.ProductCategory1)
+            .Where(p => p.Product_Category_1 != null)
+            .Select(p => p.Product_Category_1)
             .Distinct()
             .OrderBy(c => c)
             .ToList();

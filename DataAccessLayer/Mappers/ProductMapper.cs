@@ -16,8 +16,8 @@ namespace DataAccessLayer.Mappers
             if (product != null)
             {
                 return new DTOProduct(product.Name, product.EAN, product.ErpSource, product.Active, product.QuantityInBag,
-                                      product.Weight, product.Segment, product.ProductCategory1, product.ProductCategory2,
-                                      product.ProductCategory3);
+                                      product.Weight, product.Segment, product.Product_Category_1, product.Product_Category_2,
+                                      product.Product_Category_3);
             }
             return null;
         }
@@ -27,8 +27,8 @@ namespace DataAccessLayer.Mappers
             if (product != null)
             {
                 return new DALProduct(product.Name, product.EAN, product.ErpSource, product.Active, product.QuantityInBag,
-                                      product.Weight, product.Segment, product.ProductCategory1, product.ProductCategory2,
-                                      product.ProductCategory3);
+                                      product.Weight, product.Segment, product.Product_Category_1, product.Product_Category_2,
+                                      product.Product_Category_3);
             }
             return null;
         }
