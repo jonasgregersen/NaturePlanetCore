@@ -5,9 +5,9 @@ namespace Business.Model
 {
     public class User
     {
-        public string name { get; set; }
-        public string email { get; set; }
-        public int authenticationLevel { get; set; }
-        public List<Order> orderHistory { get; set; } = new List<Order>();
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public int AuthenticationLevel { get; set; }
+        public List<Order> OrderHistory { get; set; } = new List<Order>();
     }
 }
