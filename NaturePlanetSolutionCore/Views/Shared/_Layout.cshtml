@@ -32,12 +32,15 @@
                     <div class="user-dropdown">
                         <p>User</p>
                         <div class="user-dropdown-content">
-                            <button asp-controller="User" asp-action="Login" class="login-button">Log ind</button>
-                            <a href="">Get username</a>
-                            <a href="">Glemt din adgangskode?</a>
-                            <a href="">Min profil</a>
-                            <a href="">Mine Ordrer</a>
-                            <a href="">Mine favoritter</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!-- Authenticated user links here -->
+                            }
+                            else
+                            {
+                                <a asp-controller="User" asp-action="Login" class="login-button">Log ind</a>
+                                <a asp-controller="User" asp-action="Register">Registrer</a>
+                            }
                         </div>
                     </div>
                 </li>
