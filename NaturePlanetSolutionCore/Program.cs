@@ -1,3 +1,4 @@
+using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
@@ -41,6 +42,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductBLL>();
 
 var app = builder.Build();
 
