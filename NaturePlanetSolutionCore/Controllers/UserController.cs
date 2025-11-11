@@ -39,7 +39,9 @@ namespace NaturePlanetSolutionCore.Controllers
             {
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
+                FullName = viewModel.FullName
                 
+
             };
 
             var createUser = await _userManager.CreateAsync(user, viewModel.Password);
@@ -69,11 +71,7 @@ namespace NaturePlanetSolutionCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(viewModel);
-            }
-
+           
             
 
             return View(viewModel);

@@ -5,6 +5,12 @@
         <h2 class="text-center mb-4 text-success">Create Account</h2>
 
         <form asp-action="Register" method="post" novalidate>
+            <div asp-validation-summary="All">
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label fw-semibold"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Full Name"/>
+                <span asp-validation-for="FullName" class="text-danger small"></span>
+            </div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label fw-semibold"></label>
                 <input asp-for="Email" class="form-control" placeholder="you@example.com" />
@@ -32,6 +38,7 @@
                 <a asp-action="Login" class="text-decoration-none text-success fw-semibold">
                     Already a user? Login here
                 </a>
+            </div>
             </div>
         </form>
     </div>
