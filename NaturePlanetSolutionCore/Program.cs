@@ -9,11 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer("Server=tcp:10.10.131.172,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;"));
+    options.UseSqlServer("Server=tcp:10.10.132.136,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
+    options.Password.RequiredLength = 8;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.User.RequireUniqueEmail = true;
     options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
 
 })
     .AddEntityFrameworkStores<DatabaseContext>()
