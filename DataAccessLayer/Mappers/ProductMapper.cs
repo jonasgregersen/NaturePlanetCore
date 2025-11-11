@@ -15,7 +15,7 @@ namespace DataAccessLayer.Mappers
         {
             if (product != null)
             {
-                return new DTOProduct(product.Name, product.EAN, product.ErpSource, product.Active, product.QuantityInBag,
+                return new DTOProduct(product.Name, product.EAN, product.ERP_Source, product.Active, product.Purchase_quantity_step,
                                       product.Weight, product.Segment, product.Product_Category_1, product.Product_Category_2,
                                       product.Product_Category_3);
             }

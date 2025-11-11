@@ -13,7 +13,7 @@ public class ProductRepository
     }
 
     public void CreateProduct(string productName, int ean, string erpSource, bool active, string productCategory1,
-        string productCategory2, string productCategory3, int quantityInBag, double productWeight,
+        string productCategory2, string productCategory3, int quantityInBag, decimal productWeight,
         string productSegment)
     {
         var product = new Product(productName, ean, erpSource, active, quantityInBag, productWeight, productSegment, productCategory1, productCategory2, productCategory3);
@@ -21,9 +21,9 @@ public class ProductRepository
         _context.SaveChanges();
     }
 
-    public Product GetProduct(int id)
+    public Product GetProduct(string id)
     {
-        return _context.Products.FirstOrDefault(e => e.Id == id);
+        return _context.Products.FirstOrDefault(e => e.ProductID == id);
     }
 
     public List<Product> GetAllProducts()

@@ -1,3 +1,4 @@
+using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
@@ -26,6 +27,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders(); 
 
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductBLL>();
 
 var app = builder.Build();
 
