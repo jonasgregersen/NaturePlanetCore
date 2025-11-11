@@ -60,3 +60,10 @@ button.accept-policy {
     display: block;
     
 }
+
+.region-container .region-button.form-select {
+    width: fit-content !important;
+    min-width: 0;
+    display: inline-block;
+    padding-right: 2.5rem; /* keep dropdown arrow visible */
+}
