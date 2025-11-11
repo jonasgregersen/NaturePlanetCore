@@ -318,31 +318,34 @@ header {
 }
 
 /* === CATEGORY NAVBAR === */
+/* === CATEGORY NAVBAR === */
 .category-nav {
     width: 100%;
-    background-color: white;
-    padding: 0.3rem 0; /* tynd bar */
+    background-color: #0b1e39; /* mørkeblå headerbund */
+    padding: 0.3rem 0;
 }
 
-/* Tving horisontal liste */
+/* Horisontal liste */
 .category-nav .navbar-nav {
     display: flex !important;
     flex-direction: row !important;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     gap: 1.5rem;
-    padding-left: 0;
-    margin: 0;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-/* Links styling */
+/* Synlige links */
 .category-nav .nav-link {
     text-decoration: none;
-    color: #ffffff;
+    color: #ffffff; /* synlig tekst! */
     font-weight: 500;
-    padding: 0.4rem 0.8rem;
+    padding: 0.5rem 0.8rem;
     border-radius: 6px;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 /* Hover-effekt */
@@ -358,6 +361,64 @@ header {
     color: #fff;
 }
 
+/* === DROPDOWN MENUS === */
+.category-menu .nav-item {
+    position: relative;
+}
+
+/* Første dropdown */
+.category-menu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #0b1e39;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 10;
+}
+
+/* Dropdown items */
+.category-menu .dropdown-item {
+    color: #fff;
+    padding: 8px 16px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.category-menu .dropdown-item:hover {
+    background-color: #2e8b57;
+}
+
+/* Submenu */
+.dropdown-subitem {
+    position: relative;
+}
+
+.dropdown-subitem .dropdown-submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #0b1e39;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 200px;
+}
+
+/* Hover viser dropdown */
+.category-menu .nav-item:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-subitem:hover > .dropdown-submenu {
+    display: block;
+}
+
 /* Responsivt */
 @media (max-width: 768px) {
     .category-nav .navbar-nav {
@@ -365,8 +426,20 @@ header {
         justify-content: center;
         gap: 0.8rem;
     }
+
     .category-nav .nav-link {
         padding: 0.3rem 0.6rem;
     }
-}
 
+    .category-menu .dropdown-menu,
+    .category-menu .dropdown-submenu {
+        position: static;
+        display: none;
+        background-color: #0b1e39;
+        box-shadow: none;
+    }
+
+    .category-menu .nav-item:hover > .dropdown-menu {
+        display: block;
+    }
+}

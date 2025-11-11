@@ -48,3 +48,103 @@
         padding: 0.4rem 0.8rem;
     }
 }
+
+.category-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.category-menu .nav-item {
+    position: relative;
+}
+
+.category-menu .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category-menu .nav-link:hover {
+    background-color: #2e8b57;
+}
+
+/* --- første dropdown --- */
+.category-menu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #0b1e39;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 10;
+}
+
+.category-menu .dropdown-item {
+    color: #fff;
+    padding: 8px 16px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.category-menu .dropdown-item:hover {
+    background-color: #2e8b57;
+}
+
+/* --- anden dropdown (submenu) --- */
+.dropdown-subitem {
+    position: relative;
+}
+
+.dropdown-subitem .dropdown-submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #0b1e39;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 0.5rem 0;
+    min-width: 200px;
+}
+
+.dropdown-subitem:hover > .dropdown-submenu {
+    display: block;
+}
+
+/* --- vis dropdowns ved hover --- */
+.category-menu .nav-item:hover > .dropdown-menu {
+    display: block;
+}
+
+/* Responsivt */
+@media (max-width: 768px) {
+    .category-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .category-menu .dropdown-menu,
+    .category-menu .dropdown-submenu {
+        position: static;
+        display: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .category-menu .nav-item:hover > .dropdown-menu {
+        display: block;
+    }
+}
+

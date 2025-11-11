@@ -1,5 +1,6 @@
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
+using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders(); 
 
+builder.Services.AddScoped<ProductRepository>();
 
 var app = builder.Build();
 
