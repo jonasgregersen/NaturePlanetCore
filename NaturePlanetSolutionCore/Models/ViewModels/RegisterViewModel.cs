@@ -5,6 +5,8 @@ namespace NaturePlanetSolutionCore.Models.ViewModels
     public class RegisterViewModel
     {
 
+        [Required(ErrorMessage = "Full name is required")]
+        public string FullName { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
@@ -19,6 +21,7 @@ namespace NaturePlanetSolutionCore.Models.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords does not match")]
         public string ConfirmPassword { get; set; }
+
 
 
         
