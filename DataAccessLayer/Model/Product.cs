@@ -3,13 +3,13 @@ namespace DataAccessLayer.Model;
 public class Product
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public int EAN { get; set; }
-    public string ErpSource { get; set; }
+    public string? ErpSource { get; set; }
     public bool Active { get; set; }
     public int QuantityInBag { get; set; }
     public double Weight { get; set; }
-    public string Segment { get; set; }
+    public string? Segment { get; set; }
     public string? Product_Category_1 { get; set; }
     public string? Product_Category_2 { get; set; }
     public string? Product_Category_3 { get; set; }
