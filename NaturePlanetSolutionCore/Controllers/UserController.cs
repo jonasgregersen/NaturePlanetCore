@@ -10,6 +10,13 @@ namespace NaturePlanetSolutionCore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -36,6 +43,18 @@ namespace NaturePlanetSolutionCore.Controllers
             };
 
             var createUser = await _userManager.CreateAsync(user, viewModel.Password);
+
+            if (createUser.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in createUser.Errors)
+            {
+                Console.WriteLine(error);
+                ModelState.AddModelError("", error.Description);
+            }
 
             return View(viewModel);
 

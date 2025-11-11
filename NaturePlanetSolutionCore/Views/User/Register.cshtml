@@ -17,6 +17,11 @@
                 <span asp-validation-for="Password" class="text-danger small"></span>
             </div>
 
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label fw-semibold"></label>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Enter your password" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
             <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-success btn-lg rounded-pill">
                     Register
