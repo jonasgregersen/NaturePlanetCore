@@ -23,7 +23,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 })
     .AddEntityFrameworkStores<DatabaseContext>()
-    .AddDefaultTokenProviders(); 
+    .AddDefaultTokenProviders();
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+var supportedLanguages = new string[] { "en", "fr", "de", "sp" };  
 
 builder.Services.AddScoped<ProductRepository>();
 
