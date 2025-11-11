@@ -11,52 +11,54 @@
 </head>
 <body>
 <header>
-    <div class="logo-container">
-        <a class="logo-ref" href="/index">
-            <img class="logo-img" src="Assets/Images/NaturePlanet_logo.svg"/>
-        </a>
-    </div>
-    <div class="search-container">
-        @using (@Html.BeginForm())
-        {
-            <input class="search-box" type="text" placeholder="Søg efter produkter"/>
-            <button class="search-button" type="submit">
-                <i class="search-icon">&#128269;</i>
-            </button>
-        }
-    </div>
-    <div class="nav-container">
-        <ul class="nav-elements">
-            <li>
-                <div class="user-dropdown">
-                    <p>User</p>
-                    <div class="user-dropdown-content">
-                        <button asp-controller="User" asp-action="Login" class="login-button">Log ind</button>
-                        <a href="">Get username</a>
-                        <a href="">Glemt din adgangskode?</a>
-                        <a href="">Min profil</a>
-                        <a href="">Mine Ordrer</a>
-                        <a href="">Mine favoritter</a>
+    <div class="header-top">
+        <div class="logo-container">
+            <a class="logo-ref" href="/index">
+                <img class="logo-img" src="Assets/Images/NaturePlanet_logo.svg"/>
+            </a>
+        </div>
+        <div class="search-container">
+            @using (@Html.BeginForm())
+            {
+                <input class="search-box" type="text" placeholder="Søg efter produkter"/>
+                <button class="search-button" type="submit">
+                    <i class="search-icon">&#128269;</i>
+                </button>
+            }
+        </div>
+        <div class="nav-container">
+            <ul class="nav-elements">
+                <li>
+                    <div class="user-dropdown">
+                        <p>User</p>
+                        <div class="user-dropdown-content">
+                            <button asp-controller="User" asp-action="Login" class="login-button">Log ind</button>
+                            <a href="">Get username</a>
+                            <a href="">Glemt din adgangskode?</a>
+                            <a href="">Min profil</a>
+                            <a href="">Mine Ordrer</a>
+                            <a href="">Mine favoritter</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="language-dropdown">
-                    <p>Language</p>
-                    <div class="language-dropdown-content">
-                        <a href="">English</a>
-                        <a href="">Dansk</a>
-                        <a href="">Deutsch</a>
-                        <a href="">Français</a>
+                </li>
+                <li>
+                    <div class="language-dropdown">
+                        <p>Language</p>
+                        <div class="language-dropdown-content">
+                            <a href="">English</a>
+                            <a href="">Dansk</a>
+                            <a href="">Deutsch</a>
+                            <a href="">Français</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="region-container">
-                    <button class="region-button">Europe</button>
-                </div>
-            </li>
-        </ul>
+                </li>
+                <li>
+                    <div class="region-container">
+                        <button class="region-button">Europe</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
     <nav class="category-nav">
         @await Component.InvokeAsync("CategoryMenu")
