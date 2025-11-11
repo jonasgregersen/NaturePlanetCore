@@ -11,21 +11,21 @@ namespace Business.Model
     public class Order
     {
         public int OrderNumber { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<ProductBLL> Products { get; set; } = new List<ProductBLL>();
 
         public double GetTotalPrice()
         {
             double total = 0;
-            foreach (Product product in Products)
+            foreach (ProductBLL product in Products)
             {
                 total += product.getPrice();
             }
             return total;
         }
 
-        public List<Product> GetProducts()
+        public List<ProductBLL> GetProducts()
         {
-            return new List<Product>(Products);
+            return new List<ProductBLL>(Products);
         }
     }
 }

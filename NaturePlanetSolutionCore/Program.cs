@@ -1,3 +1,4 @@
+using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
@@ -33,6 +34,7 @@ builder.Services.AddLocalization(options =>
 var supportedLanguages = new string[] { "en", "fr", "de", "sp" };  
 
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductBLL>();
 
 var app = builder.Build();
 
