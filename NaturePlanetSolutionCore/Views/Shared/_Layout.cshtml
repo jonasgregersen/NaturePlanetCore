@@ -34,7 +34,8 @@
                         <div class="user-dropdown-content">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <!-- Authenticated user links here -->
+                                <a asp-controller="User" asp-action="Edit">Profile</a>
+                                <a asp-controller="User" asp-action="Logout">Logout</a>
                             }
                             else
                             {
@@ -42,6 +43,7 @@
                                 <a asp-controller="User" asp-action="Register">Registrer</a>
                             }
                         </div>
+                        
                     </div>
                 </li>
                 <li>

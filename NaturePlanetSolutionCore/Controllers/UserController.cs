@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Model;
+﻿using DataAccessLayer.Context;
+using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NaturePlanetSolutionCore.Models.ViewModels;
@@ -11,14 +12,35 @@ namespace NaturePlanetSolutionCore.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        private readonly DatabaseContext _context;
+
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var user = _context.Users.Find(id);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+
+            }
+
             return View();
         }
 
@@ -77,6 +99,13 @@ namespace NaturePlanetSolutionCore.Controllers
                 return View(viewModel);
             }
 
+            var user = await _userManager.FindByEmailAsync(viewModel.Email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid Login Attempt");
+            }
+
             var result = await _signInManager.PasswordSignInAsync(
                 viewModel.Email,
                 viewModel.Password,
@@ -87,10 +116,17 @@ namespace NaturePlanetSolutionCore.Controllers
             if (result.Succeeded) 
             {
                 return RedirectToAction("Index", "Home");
-            }         
-              
+            }
+
+            ModelState.AddModelError("", "Incorrect email or password.");
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "User");
         }
     }
 }
