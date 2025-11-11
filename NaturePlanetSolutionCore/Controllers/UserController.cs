@@ -71,8 +71,24 @@ namespace NaturePlanetSolutionCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
-           
-            
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(
+                viewModel.Email,
+                viewModel.Password,
+                isPersistent: viewModel.RememberMe,
+                lockoutOnFailure: false
+                );
+
+            if (result.Succeeded) 
+            {
+                return RedirectToAction("Index", "Home");
+            }         
+              
 
             return View(viewModel);
         }
