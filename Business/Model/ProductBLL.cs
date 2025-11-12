@@ -28,4 +28,10 @@ public class ProductBLL: Component
 
         return products.Select(p => ProductMapper.Map(p)).ToList();
     }
+
+    public Product GetProductByName(string productName)
+    {
+        return ProductMapper.Map(_productRepository.GetAllProducts()
+            .First(p => p.Name == productName));
+    }
 }

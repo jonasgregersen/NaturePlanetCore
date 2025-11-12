@@ -1,6 +1,7 @@
 using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Repositories;
+using DataTransferLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NaturePlanetSolutionCore.Controllers;
@@ -43,5 +44,12 @@ public class ProductsController : Controller
             .Where(p => p.Product_Category_1 == category1 &&  p.Product_Category_2 == category2 && p.Product_Category_3 == category3)
             .ToList();
         return View(products);
+    }
+    [HttpGet]
+    public IActionResult Details(string productName)
+    {
+        var product = _productBLL.GetProductByName(productName);
+        Console.WriteLine(product.Name);
+        return View(product);
     }
 }

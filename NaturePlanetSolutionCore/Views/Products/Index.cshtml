@@ -4,8 +4,8 @@
     @foreach (var product in @Model)
     {
         <div class="product-@product.Name">
-            <a asp-controller="Products" asp-route-product="@product.Name">@product.Name</a>
-            <p>@product.Id</p>
+            <a asp-controller="Products" asp-action="Details" asp-route-product="@product.Name">@product.Name</a>
+            <p>@product.EAN</p>
         </div>
     }
 </div>

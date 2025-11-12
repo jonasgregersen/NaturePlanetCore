@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer("Server=tcp:10.10.132.136,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;"));
+    options.UseSqlServer("Server=tcp:10.10.131.191,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -59,6 +59,10 @@ app.MapControllerRoute(
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.MapControllerRoute(
+    name: "productDetails",
+    pattern: "Products/{productName}",
+    defaults: new { controller = "Products", action = "Details" });
 
 
 
