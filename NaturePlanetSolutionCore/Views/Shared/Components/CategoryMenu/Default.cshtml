@@ -4,7 +4,7 @@
     @foreach (var category in Model)
     {
         <li class="nav-item dropdown">
-            <a class="nav-link text-white" asp-controller="Products" asp-route-category="@category.Name">@category.Name</a>
+            <a class="nav-link text-white" asp-controller="Products" asp-action="Index" asp-route-category="@category.Name">@category.Name</a>
 
             @if (category.Subcategories.Any())
             {
@@ -14,6 +14,7 @@
                         <li class="dropdown-subitem">
                             <a class="dropdown-item"
                                asp-controller="Products"
+                               asp-action="Index"
                                asp-route-category1="@category.Name"
                                asp-route-category2="@sub.Name">
                                 @sub.Name
@@ -27,6 +28,7 @@
                                         <li>
                                             <a class="dropdown-item"
                                                asp-controller="Products"
+                                               asp-action="Index"
                                                asp-route-category1="@category.Name"
                                                asp-route-category2="@sub.Name"
                                                asp-route-category3="@subsub">

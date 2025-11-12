@@ -18,13 +18,14 @@
             </a>
         </div>
         <div class="search-container">
-            @using (@Html.BeginForm())
+            @using (Html.BeginForm("Search", "Products", FormMethod.Get))
             {
-                <input class="search-box" type="text" placeholder="Søg efter produkter"/>
+                <input class="search-box" name="query" type="text" placeholder="Søg efter produkter" />
                 <button class="search-button" type="submit">
                     <i class="search-icon">&#128269;</i>
                 </button>
             }
+
         </div>
         <div class="nav-container">
             <ul class="nav-elements">

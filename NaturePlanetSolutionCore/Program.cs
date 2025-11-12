@@ -71,9 +71,16 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.MapControllerRoute(
+    name: "productSearch",
+    pattern: "Products/Search",
+    defaults: new { controller = "Products", action = "Search" });
+
+app.MapControllerRoute(
     name: "productDetails",
-    pattern: "Products/{productName}",
+    pattern: "Products/Details/{productName}",
     defaults: new { controller = "Products", action = "Details" });
+
+
 
 
 

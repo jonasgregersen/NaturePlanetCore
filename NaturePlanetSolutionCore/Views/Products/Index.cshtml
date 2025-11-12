@@ -4,7 +4,7 @@
     @foreach (var product in @Model)
     {
         <div class="product-@product.Name">
-            <a asp-controller="Products" asp-action="Details" asp-route-product="@product.Name">@product.Name</a>
+            <a asp-controller="Products" asp-action="Details" asp-route-productName="@product.Name" name="productName">@product.Name</a>
             <p>@product.EAN</p>
         </div>
     }
