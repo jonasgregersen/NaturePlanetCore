@@ -12,7 +12,7 @@ public class ProductRepository
         _context = context;
     }
 
-    public void CreateProduct(string productName, int ean, string erpSource, bool active, string productCategory1,
+    public void CreateProduct(string productName, string ean, string erpSource, bool active, string productCategory1,
         string productCategory2, string productCategory3, int quantityInBag, decimal productWeight,
         string productSegment)
     {
