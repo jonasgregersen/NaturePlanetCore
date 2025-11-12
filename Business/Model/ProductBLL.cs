@@ -34,4 +34,15 @@ public class ProductBLL: Component
         return ProductMapper.Map(_productRepository.GetAllProducts()
             .First(p => p.Name == productName));
     }
+
+    public List<Product> SearchProducts(string query)
+    {
+        var products = _productRepository.GetAllProducts()
+            .Where(p => p.Name.ToLower().Contains(query.ToLower()));
+        if (!products.Any())
+        {
+            throw new Exception("Ingen produkter fundet.");
+        }
+        return products.Select(p => ProductMapper.Map(p)).ToList();
+    }
 }

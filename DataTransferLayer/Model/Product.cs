@@ -12,7 +12,7 @@ namespace DataTransferLayer.Model
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public double? EAN { get; set; }
+        public string? EAN { get; set; }
         public string ErpSource { get; set; }
         public bool Active { get; set; }
         public int? QuantityInBag { get; set; }
@@ -21,11 +21,11 @@ namespace DataTransferLayer.Model
         public string Product_Category_1 { get; set; }
         public string Product_Category_2 { get; set; }
         public string Product_Category_3 { get; set; }
-        public Product(string name, double? ean, string erpSource, bool active, int? quantityInBag, decimal? weight,
+        public Product(string name, string? ean, string erpSource, bool active, int? quantityInBag, decimal? weight,
        string segment, string productCategory1, string productCategory2, string productCategory3)
         {
             Name = name;
-            EAN = ean ?? 0;
+            EAN = ean;
             ErpSource = erpSource;
             Active = active;
             QuantityInBag = quantityInBag ?? 0;

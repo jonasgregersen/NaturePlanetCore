@@ -1,7 +1,27 @@
 @model DataTransferLayer.Model.Product
 
 
-<a class="product-category-1">@Model.Product_Category_1</a> > <a class="product-category-2">@Model.Product_Category_2</a> > <a class="product-category-3">@Model.Product_Category_3</a> 
+<a class="product-category-1"
+   asp-controller="Products"
+   asp-action="Index"
+   asp-route-category="@Model.Product_Category_1">
+   @Model.Product_Category_1
+</a> > 
+<a class="product-category-2"
+   asp-controller="Products"
+   asp-action="Index"
+   asp-route-category1="@Model.Product_Category_1"
+   asp-route-category2="@Model.Product_Category_2">
+   @Model.Product_Category_2
+</a> > 
+<a class="product-category-3"
+   asp-controller="Products"
+   asp-action="Index"
+   asp-route-category1="@Model.Product_Category_1"
+   asp-route-category2="@Model.Product_Category_2"
+   asp-route-category3="@Model.Product_Category_3">
+   @Model.Product_Category_3
+</a> 
 <h1 class="product-name">@Model.Name</h1>
 
 <p class="product-ean">@Model.EAN</p>
