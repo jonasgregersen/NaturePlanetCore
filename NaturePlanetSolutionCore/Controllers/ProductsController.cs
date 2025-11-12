@@ -17,7 +17,6 @@ public class ProductsController : Controller
     public IActionResult Index()
     {
         var products = _productBLL.getAllProducts()
-            .Select(p => p.Name)
             .ToList();
         return View(products);
     } 
@@ -26,7 +25,6 @@ public class ProductsController : Controller
     {
         var products = _productBLL.getAllProducts()
             .Where(p => p.Product_Category_1 == category)
-            .Select(p => p.Name)
             .ToList();
         return View(products);
     }
@@ -35,7 +33,6 @@ public class ProductsController : Controller
     {
         var products = _productBLL.getAllProducts()
             .Where(p => p.Product_Category_1 == category1 && p.Product_Category_2 == category2)
-            .Select(p => p.Name)
             .ToList();
         return View(products);
     }
@@ -44,7 +41,6 @@ public class ProductsController : Controller
     {
         var products = _productBLL.getAllProducts()
             .Where(p => p.Product_Category_1 == category1 &&  p.Product_Category_2 == category2 && p.Product_Category_3 == category3)
-            .Select(p => p.Name)
             .ToList();
         return View(products);
     }

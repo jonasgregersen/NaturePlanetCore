@@ -1,8 +1,13 @@
-@model List<string>
+@model List<DataTransferLayer.Model.Product>
 
-@foreach (var product in @Model)
-{
-    <ul>
-        <li>@product</li>
-    </ul>
-}
+<div class="product-container">
+    @foreach (var product in @Model)
+    {
+        <div class="product-@product.Name">
+            <a asp-controller="Products" asp-route-product="@product.Name">@product.Name</a>
+            <p>@product.Id</p>
+        </div>
+    }
+</div>
+
+
