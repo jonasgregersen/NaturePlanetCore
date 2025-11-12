@@ -5,6 +5,7 @@
         <h2 class="text-center mb-4 text-success">Login</h2>
 
         <form asp-controller="User" asp-action="Login" method="post" novalidate>
+            <div asp-validation-summary="All">
             <div class="mb-3">
                 <label asp-for="Email" class="form-label fw-semibold"></label>
                 <input asp-for="Email" class="form-control" placeholder="you@example.com" />
@@ -17,6 +18,11 @@
                 <span asp-validation-for="Password" class="text-danger small"></span>
             </div>
 
+            <div>
+                 <input asp-for="RememberMe" class="form-check-input" />
+                 <label asp-for="RememberMe" class="form-check-label"></label>                
+            </div>
+
             <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-success btn-lg rounded-pill">
                     Login
@@ -27,6 +33,7 @@
                 <a asp-action="Register" class="text-decoration-none text-success fw-semibold">
                     Not a user yet? Register here
                 </a>
+            </div>
             </div>
         </form>
     </div>

@@ -4,6 +4,7 @@ using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,14 @@ builder.Services.AddLocalization(options =>
     options.ResourcesPath = "Resources";
 });
 
-var supportedLanguages = new string[] { "en", "fr", "de", "sp" };  
+var supportedLanguages = new string[] { "en", "da", "fr", "de" };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.SetDefaultCulture("en");
+    options.AddSupportedCultures(supportedLanguages);
+    options.AddSupportedUICultures(supportedLanguages);
+});
 
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductBLL>();
@@ -48,6 +56,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
 
 app.UseAuthorization();
 app.UseAuthentication();
