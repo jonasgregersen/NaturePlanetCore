@@ -15,7 +15,7 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
     public DbSet<Product> Products { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=tcp:10.10.131.191,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanet;Persist Security Info=False;User ID=natureplanetadmin@natureplanetprojekt;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
     }
 
     
