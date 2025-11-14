@@ -3,6 +3,7 @@ using DataAccessLayer.Context;
 using DataAccessLayer.Repositories;
 using DataTransferLayer.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace NaturePlanetSolutionCore.Controllers;
 
@@ -70,5 +71,20 @@ public class ProductsController : Controller
 
         var products = _productBLL.SearchProducts(query);
         return View("index", products);
+    }
+
+    public IActionResult AddToOrder(string productName)
+    {
+        if (productName.IsNullOrEmpty())
+        {
+            throw new Exception("Der skete en fejl med at tilføje produktet.");
+        }
+
+        var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
+        var product = _productBLL.GetProductByName(productName);
+        
+        order.AddProduct(product);
+        HttpContext.Session.SetObject("order", order);
+        return View("Details", product);
     }
 }

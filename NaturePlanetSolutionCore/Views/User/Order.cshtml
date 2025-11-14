@@ -1,0 +1,13 @@
+@model Business.Model.OrderBLL
+
+@if (Model.GetProducts().Any())
+{
+    @foreach (var product in Model.GetProducts())
+    {
+        <p>@product.Name</p>
+    }
+}
+else
+{
+    <p>Ingen produkter i ordre</p>
+}
