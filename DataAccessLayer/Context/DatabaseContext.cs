@@ -13,6 +13,8 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<Product> Products { get; set; }
+
+    public DbSet<Order> Orders { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=tcp:10.10.131.191,1433;Database=NaturePlanet;User Id=sa;Password=12345;TrustServerCertificate=True;");
