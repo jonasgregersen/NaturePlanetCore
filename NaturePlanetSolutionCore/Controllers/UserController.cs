@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Context;
+﻿using Business.Model;
+using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -127,6 +128,12 @@ namespace NaturePlanetSolutionCore.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "User");
+        }
+
+        public IActionResult ViewOrder()
+        {
+            var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
+            return View("Order", order);
         }
     }
 }

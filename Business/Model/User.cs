@@ -8,6 +8,6 @@ namespace Business.Model
         public string Name { get; set; }
         public string Email { get; set; }
         public int AuthenticationLevel { get; set; }
-        public List<Order> OrderHistory { get; set; } = new List<Order>();
+        public List<OrderBLL> OrderHistory { get; set; } = new List<OrderBLL>();
     }
 }

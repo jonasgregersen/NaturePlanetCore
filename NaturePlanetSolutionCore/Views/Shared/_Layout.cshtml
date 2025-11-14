@@ -36,6 +36,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a asp-controller="User" asp-action="Edit">Profile</a>
+                                <a asp-controller="User" asp-action="ViewOrder">Se Ordre</a>
                                 <a asp-controller="User" asp-action="Logout">Logout</a>
                             }
                             else
