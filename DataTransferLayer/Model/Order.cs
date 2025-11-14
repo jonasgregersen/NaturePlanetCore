@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace DataTransferLayer.Model
 {
-    internal class Order
+    public class Order
     {
+        public int OrderNumber { get; set; }
+
+        public virtual List<Product> Products { get; set; } = new List<Product>();
+
+        public Order(int órderNumber, List<Product> products)
+        {
+            OrderNumber = OrderNumber;
+            Products = products;
+        }
+
+        public Order(int orderNumber)
+        {
+            OrderNumber = orderNumber;
+        }
     }
 }
