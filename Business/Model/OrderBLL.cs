@@ -13,7 +13,7 @@ namespace Business.Model
     {
         public int OrderNumber { get; set; }
         public List<DTOProduct> Products { get; set; } = new List<DTOProduct>();
-        
+
 
         public List<DTOProduct> GetProducts()
         {
