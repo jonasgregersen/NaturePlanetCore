@@ -8,13 +8,14 @@ namespace DataAccessLayer.Model
 {
     public class Order
     {
+        public int OrderId { get; set; }
         public int OrderNumber { get; set; }    
 
         public virtual List<Product> Products { get; set; } = new List<Product>();
 
-        public Order(int órderNumber, List<Product> products)
+        public Order(int orderNumber, List<Product> products)
         {
-            OrderNumber = OrderNumber;
+            OrderNumber = orderNumber;
             Products = products;
         }
 
