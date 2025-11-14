@@ -30,6 +30,11 @@ namespace DataAccessLayer.Repositories
             return _context.Orders.ToList();
         }
 
+        public void AddOrder(DALOrder order)
+        {
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+        }
         
     }
 }

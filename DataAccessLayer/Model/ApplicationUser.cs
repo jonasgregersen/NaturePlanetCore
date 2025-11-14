@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DTOOrder = DataTransferLayer.Model.Order;
 
 namespace DataAccessLayer.Model
 {
@@ -12,7 +13,7 @@ namespace DataAccessLayer.Model
     {
         public string? FullName { get; set; }
 
-      //  public List<Order> Orders { get; set; } 
+        public List<DTOOrder> Orders { get; set; } 
 
     }
 }
