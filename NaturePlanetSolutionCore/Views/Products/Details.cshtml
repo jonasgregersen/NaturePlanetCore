@@ -26,3 +26,12 @@
 
 <p class="product-ean">@Model.EAN</p>
 
+@if (User.Identity.IsAuthenticated)
+{
+   <button class="to-order-button"
+           asp-controller="Products"
+           asp-action="AddToOrder"
+           asp-route-productName="@Model.Name">
+      Tilføj til kurv
+   </button>
+}
