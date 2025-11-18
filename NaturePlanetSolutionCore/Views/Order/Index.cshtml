@@ -1,0 +1,8 @@
+@model NaturePlanetSolutionCore.Models.ViewModels.OrderViewModel
+@using (Html.BeginForm("Order", "Order", FormMethod.Post))
+{
+    <input asp-for="Email" class="name-order" name="name-order" type="text" placeholder="Fulde navn"/>
+    <span asp-validation-for="Email"></span>
+    <input class="email-order" name="email-order" type="text" placeholder="Email"/>
+    <button type="submit" class="submit-button" name="submit-button"/>
+}

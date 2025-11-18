@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace DataTransferLayer.Model
 {
-    public class Order
+    public class OrderDto
     {
         public int OrderNumber { get; set; }
 
-        public virtual List<Product> Products { get; set; } = new List<Product>();
+        public virtual List<ProductDto> Products { get; set; } 
 
-        public Order(int órderNumber, List<Product> products)
+        public OrderDto(int orderNumber, List<ProductDto> products)
         {
-            OrderNumber = OrderNumber;
+            OrderNumber = orderNumber;
             Products = products;
         }
 
-        public Order(int orderNumber)
+        public OrderDto()
         {
-            OrderNumber = orderNumber;
+            
         }
     }
 }

@@ -16,17 +16,17 @@ public class ProductRepository
         string productCategory2, string productCategory3, int quantityInBag, decimal productWeight,
         string productSegment)
     {
-        var product = new Product(productName, ean, erpSource, active, quantityInBag, productWeight, productSegment, productCategory1, productCategory2, productCategory3);
+        var product = new DALProduct(productName, ean, erpSource, active, quantityInBag, productWeight, productSegment, productCategory1, productCategory2, productCategory3);
         _context.Products.Add(product);
         _context.SaveChanges();
     }
 
-    public Product GetProduct(string id)
+    public DALProduct GetProduct(string id)
     {
-        return _context.Products.FirstOrDefault(e => e.ProductID == id);
+        return _context.Products.FirstOrDefault(e => e.ProductId == id);
     }
 
-    public List<Product> GetAllProducts()
+    public List<DALProduct> GetAllProducts()
     {
         return _context.Products.ToList();
     }
@@ -60,7 +60,7 @@ public class ProductRepository
             .OrderBy(p => p)
             .ToList();
     }
-    public void RemoveProduct(Product product)
+    public void RemoveProduct(DALProduct product)
     {
         _context.Products.Remove(product);
         _context.SaveChanges();
