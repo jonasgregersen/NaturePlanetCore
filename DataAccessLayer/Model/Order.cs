@@ -12,16 +12,21 @@ namespace DataAccessLayer.Model
     {
         [Key]
         public int OrderId { get; set; }
-        public int OrderNumber { get; set; }    
+        public int OrderNumber { get; set; }
 
-        public virtual List<Product> Products { get; set; } = new List<Product>();
+        public ApplicationUser? User { get; set; }
 
-        public Order(int orderNumber, List<Product> products)
+        public string? UserId { get; set; }
+        public virtual List<DALProduct> Products { get; set; } = new List<DALProduct>();
+
+
+        public Order() { }
+        public Order(int orderNumber, List<DALProduct> products)
         {
             OrderNumber = orderNumber;
             Products = products;
         }
 
-        public Order() { }
+        
     }
 }

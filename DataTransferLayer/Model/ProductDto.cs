@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DataTransferLayer.Model
 {
-    public class Product
+    public class ProductDto
     {
 
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace DataTransferLayer.Model
         public string Product_Category_1 { get; set; }
         public string Product_Category_2 { get; set; }
         public string Product_Category_3 { get; set; }
-        public Product(string name, string? ean, string erpSource, bool active, int? quantityInBag, decimal? weight,
+        public ProductDto(string name, string? ean, string erpSource, bool active, int? quantityInBag, decimal? weight,
        string segment, string productCategory1, string productCategory2, string productCategory3)
         {
             Name = name;
@@ -36,6 +36,6 @@ namespace DataTransferLayer.Model
             Product_Category_3 = productCategory3;
         }
 
-        public Product() { }
+        public ProductDto() { }
     }
 }

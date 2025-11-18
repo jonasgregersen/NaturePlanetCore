@@ -66,7 +66,7 @@ public class ProductsController : Controller
         if (string.IsNullOrWhiteSpace(query))
         {
             ViewBag.Message = "Skriv et søgeord!";
-            return View("Index", new List<Product>());
+            return View("Index", new List<ProductDto>());
         }
 
         var products = _productBLL.SearchProducts(query);

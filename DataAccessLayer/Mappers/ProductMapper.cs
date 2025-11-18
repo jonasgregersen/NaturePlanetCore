@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DTOProduct = DataTransferLayer.Model.Product;
-using DALProduct = DataAccessLayer.Model.Product;
+using DTOProduct = DataTransferLayer.Model.ProductDto;
+using DALProduct = DataAccessLayer.Model.DALProduct;
 
 namespace DataAccessLayer.Mappers
 {

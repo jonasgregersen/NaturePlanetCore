@@ -18,7 +18,7 @@ public class ProductBLL: Component
         return 0;
     }
 
-    public List<Product> getAllProducts()
+    public List<ProductDto> getAllProducts()
     {
         var products = _productRepository.GetAllProducts();
         if (!products.Any())
@@ -29,13 +29,13 @@ public class ProductBLL: Component
         return products.Select(p => ProductMapper.Map(p)).ToList();
     }
 
-    public Product GetProductByName(string productName)
+    public ProductDto GetProductByName(string productName)
     {
         return ProductMapper.Map(_productRepository.GetAllProducts()
             .First(p => p.Name == productName));
     }
 
-    public List<Product> SearchProducts(string query)
+    public List<ProductDto> SearchProducts(string query)
     {
         var products = _productRepository.GetAllProducts()
             .Where(p => p.Name.ToLower().Contains(query.ToLower()));

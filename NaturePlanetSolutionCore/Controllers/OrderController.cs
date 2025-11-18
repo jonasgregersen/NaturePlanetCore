@@ -1,9 +1,10 @@
 ﻿using Business.Model;
+using DataAccessLayer.Mappers;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using DALOrder = DataTransferLayer.Model.Order;
-using DTOOrder = DataTransferLayer.Model.Order;
+using DALOrder = DataTransferLayer.Model.OrderDto;
+using DTOOrder = DataTransferLayer.Model.OrderDto;
 
 namespace NaturePlanetSolutionCore.Controllers
 {
@@ -27,7 +28,8 @@ namespace NaturePlanetSolutionCore.Controllers
                 ModelState.AddModelError("", "Invalid Email");
             }
             var order = HttpContext.Session.GetObject<DTOOrder>("order");
-            user.Orders.Add(order);
+            var dalOrder = OrderMapper.Map(order);
+            user.Orders.Add(dalOrder);
             _orderBLL.CreateOrder(order);
             return View("Index");
         }

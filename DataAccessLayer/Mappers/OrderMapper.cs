@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DTOOrder = DataTransferLayer.Model.Order;
+using DTOOrder = DataTransferLayer.Model.OrderDto;
 using DALOrder = DataAccessLayer.Model.Order;
-using DTOProduct = DataTransferLayer.Model.Product;
-using DALProduct = DataAccessLayer.Model.Product;
+using DTOProduct = DataTransferLayer.Model.ProductDto;
+using DALProduct = DataAccessLayer.Model.DALProduct;
 
 using DataTransferLayer.Model;
 using DataAccessLayer.Model;

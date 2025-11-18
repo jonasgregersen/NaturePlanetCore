@@ -8,7 +8,7 @@ using Business.Model;
 using DataAccessLayer.Mappers;
 using DataAccessLayer.Repositories;
 using DataTransferLayer.Model;
-using DTOProduct = DataTransferLayer.Model.Product;
+using DTOProduct = DataTransferLayer.Model.ProductDto;
 
 namespace Business.Model
 {
@@ -29,7 +29,7 @@ namespace Business.Model
             Products.Add(product);
         }
 
-        public void CreateOrder(Order order)
+        public void CreateOrder(OrderDto order)
         {
             var DALorder = OrderMapper.Map(order);
             _orderRepository.AddOrder(DALorder);
