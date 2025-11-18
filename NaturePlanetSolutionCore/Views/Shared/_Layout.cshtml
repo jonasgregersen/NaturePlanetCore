@@ -35,7 +35,7 @@
                         <div class="user-dropdown-content">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a asp-controller="User" asp-action="Edit">Profile</a>
+                                <a asp-controller="User" asp-action="Profile">Profile</a>
                                 <a asp-controller="User" asp-action="ViewOrder">Se Ordre</a>
                                 <a asp-controller="User" asp-action="Logout">Logout</a>
                             }

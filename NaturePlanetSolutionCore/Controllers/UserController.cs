@@ -1,6 +1,7 @@
 ﻿using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NaturePlanetSolutionCore.Models.ViewModels;
@@ -55,7 +56,7 @@ namespace NaturePlanetSolutionCore.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(viewModel); 
+                return View(viewModel);
             }
 
             var user = new ApplicationUser
@@ -63,7 +64,7 @@ namespace NaturePlanetSolutionCore.Controllers
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
                 FullName = viewModel.FullName
-                
+
 
             };
 
@@ -114,7 +115,7 @@ namespace NaturePlanetSolutionCore.Controllers
                 lockoutOnFailure: false
                 );
 
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -134,6 +135,58 @@ namespace NaturePlanetSolutionCore.Controllers
         {
             var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
             return View("Order", order);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var viewModel = new ProfileViewModel
+            {
+                Email = user.Email,
+                Password = user.PasswordHash
+            };
+            return View("ProfilePage", viewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["StatusMessage"] = "Your password has been changed.";
+                return RedirectToAction("Profile");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
         }
     }
 }
