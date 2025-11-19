@@ -31,6 +31,7 @@ namespace NaturePlanetSolutionCore.Controllers
             var email = collection["email-order"];
 
             var user = _userManager.FindByEmailAsync(email).Result;
+            
             if (user == null)
             {
                 ModelState.AddModelError("", "Invalid Email");
