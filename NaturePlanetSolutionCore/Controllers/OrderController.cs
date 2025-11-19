@@ -40,7 +40,17 @@ namespace NaturePlanetSolutionCore.Controllers
             var dalOrder = OrderMapper.Map(order);
             user.Orders.Add(dalOrder);
             _orderBLL.CreateOrder(dtoOrder);
-            return View("Confirmation");
+            HttpContext.Session.Remove("cart");
+            return View("Confirmation", cart);
+
+        }
+
+       
+
+        [HttpGet]
+        public IActionResult Confirmation()
+        {
+            return View();
         }
     }
 }

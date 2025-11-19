@@ -137,6 +137,12 @@ namespace NaturePlanetSolutionCore.Controllers
             return View("Cart", order);
         }
 
+        [HttpGet]
+        public IActionResult ViewOrders()
+        {
+            return View();
+        }
+
         [Authorize]
         public async Task<IActionResult> Profile()
         {
