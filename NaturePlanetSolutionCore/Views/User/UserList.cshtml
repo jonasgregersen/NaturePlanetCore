@@ -1,22 +1,39 @@
 ﻿@model IEnumerable<DataAccessLayer.Model.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<DataAccessLayer.Model.ApplicationUser> UserManager
 
-<h2>All Users</h2>
+<h2>User List</h2>
 <table>
     <thead>
         <tr>
             <th>Email</th>
             <th>User Name</th>
             <th>Full Name</th>
+            <th>Role</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Email</td>
-                <td>@user.UserName</td>
-                <td>@user.FullName</td>
-            </tr>
-        }
+    @foreach (var user in Model)
+    {
+        var roles = await UserManager.GetRolesAsync(user);
+        string currentRole = roles.FirstOrDefault() ?? "None";
+        <tr>
+            <td>@user.Email</td>
+            <td>@user.UserName</td>
+            <td>@user.FullName</td>
+            <td>@currentRole</td>
+            <td>
+                <form asp-action="SetUserRole" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="@user.Id" />
+                    <select name="role" class="form-select form-select-sm" style="width:auto;display:inline;">
+                        <option value="User" selected="@("User" == currentRole)">User</option>
+                        <option value="Admin" selected="@("Admin" == currentRole)">Admin</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Set Role</button>
+                </form>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

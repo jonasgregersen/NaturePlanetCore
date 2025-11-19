@@ -197,5 +197,40 @@ namespace NaturePlanetSolutionCore.Controllers
             var users = _userManager.Users.ToList();
             return View(users);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> PromoteToAdmin(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                await _userManager.AddToRoleAsync(user, "Admin");
+
+            return RedirectToAction("UserList");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> SetUserRole(string userId, string role)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            // Remove from both roles first
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+            if (await _userManager.IsInRoleAsync(user, "User"))
+                await _userManager.RemoveFromRoleAsync(user, "User");
+
+            // Add to selected role
+            if (!string.IsNullOrEmpty(role))
+                await _userManager.AddToRoleAsync(user, role);
+
+            return RedirectToAction("UserList");
+        }
     }
 }
