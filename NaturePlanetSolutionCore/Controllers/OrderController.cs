@@ -12,6 +12,12 @@ namespace NaturePlanetSolutionCore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private OrderBLL _orderBLL;
+
+        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL)
+        {
+            _userManager = userManager;
+            _orderBLL = orderBLL;
+        }
         public IActionResult Index()
         {
             return View();
@@ -19,26 +25,32 @@ namespace NaturePlanetSolutionCore.Controllers
 
 
         [HttpGet]
-        public IActionResult Order()
+        public IActionResult Checkout()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Order(IFormCollection collection)
+        public async Task<IActionResult> Checkout(IFormCollection collection)
         {
             var navn = collection["name-order"];
             var email = collection["email-order"];
 
-            var user = _userManager.FindByEmailAsync(email).Result;
+            var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 ModelState.AddModelError("", "Invalid Email");
             }
-            var order = HttpContext.Session.GetObject<DTOOrder>("order");
-            var dalOrder = OrderMapper.Map(order);
+            var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+
+            var dtoOrder = new DALOrder(
+                orderNumber: cart.GenerateOrderNumber(),
+                products: cart.Products
+            );
+            
+            var dalOrder = OrderMapper.Map(dtoOrder);
             user.Orders.Add(dalOrder);
-            _orderBLL.CreateOrder(order);
+            _orderBLL.CreateOrder(dtoOrder);
             return View("Index");
         }
     }

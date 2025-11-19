@@ -18,6 +18,11 @@ namespace Business.Model
         public List<DTOProduct> Products { get; set; } = new List<DTOProduct>();
         private readonly OrderRepository _orderRepository;
 
+        public OrderBLL(OrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
 
         public List<DTOProduct> GetProducts()
         {
@@ -28,6 +33,8 @@ namespace Business.Model
         {
             Products.Add(product);
         }
+        
+        
 
         public void CreateOrder(OrderDto order)
         {

@@ -133,7 +133,7 @@ namespace NaturePlanetSolutionCore.Controllers
 
         public IActionResult Cart()
         {
-            var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
+            var order = HttpContext.Session.GetObject<Cart>("order") ?? new Cart();
             return View("Cart", order);
         }
 
