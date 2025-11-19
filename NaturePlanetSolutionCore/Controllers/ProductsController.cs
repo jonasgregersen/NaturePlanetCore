@@ -80,11 +80,11 @@ public class ProductsController : Controller
             throw new Exception("Der skete en fejl med at tilføje produktet.");
         }
 
-        var cart = HttpContext.Session.GetObject<Cart>("order") ?? new Cart();
+        var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
         var product = _productBLL.GetProductByName(productName);
         
         cart.AddProduct(product);
-        HttpContext.Session.SetObject("order", cart);
+        HttpContext.Session.SetObject("cart", cart);
         return View("Details", product);
     }
 }

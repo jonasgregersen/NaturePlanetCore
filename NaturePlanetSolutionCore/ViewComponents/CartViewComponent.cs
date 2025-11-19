@@ -9,7 +9,7 @@ public class CartViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
-        var cart = HttpContext.Session.GetObject<Cart>("order");
+        var cart = HttpContext.Session.GetObject<Cart>("cart");
         if (cart == null)
         {
             cart = new Cart();

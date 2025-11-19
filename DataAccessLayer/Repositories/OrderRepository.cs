@@ -30,9 +30,39 @@ namespace DataAccessLayer.Repositories
             return _context.Orders.ToList();
         }
 
-        public void AddOrder(DALOrder order)
+        public void AddOrder(Order order)
         {
+            if (order == null) 
+                throw new ArgumentNullException(nameof(order));
+
+            // Create a copy of the products list to avoid modification during iteration
+            var productsToProcess = order.Products.ToList();
+            order.Products.Clear(); // Clear the original list
+
+            // First, attach the order without tracking the products
             _context.Orders.Add(order);
+
+            // Handle each product in the order
+            foreach (var product in productsToProcess)
+            {
+                // Check if the product is already being tracked
+                var existingProduct = _context.Products
+                    .Local
+                    .FirstOrDefault(p => p.ProductId == product.ProductId);
+
+                if (existingProduct != null)
+                {
+                    // If the product is already tracked, use the tracked instance
+                    order.Products.Add(existingProduct);
+                }
+                else
+                {
+                    // If not tracked, attach it
+                    _context.Products.Attach(product);
+                    order.Products.Add(product);
+                }
+            }
+
             _context.SaveChanges();
         }
         
