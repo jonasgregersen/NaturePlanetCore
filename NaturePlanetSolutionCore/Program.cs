@@ -44,6 +44,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductBLL>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderBLL>();
+
 
 builder.Services.AddDistributedMemoryCache();
 
