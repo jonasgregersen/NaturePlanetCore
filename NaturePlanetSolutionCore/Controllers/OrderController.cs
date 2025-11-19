@@ -39,8 +39,8 @@ namespace NaturePlanetSolutionCore.Controllers
             var order = HttpContext.Session.GetObject<DTOOrder>("order");
             var dalOrder = OrderMapper.Map(order);
             user.Orders.Add(dalOrder);
-            _orderBLL.CreateOrder(order);
-            return View("Index");
+            _orderBLL.CreateOrder(dtoOrder);
+            return View("Confirmation");
         }
     }
 }
