@@ -70,8 +70,10 @@ namespace NaturePlanetSolutionCore.Controllers
 
             var createUser = await _userManager.CreateAsync(user, viewModel.Password);
 
+            // After successful user creation
             if (createUser.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "User");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
@@ -187,6 +189,13 @@ namespace NaturePlanetSolutionCore.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UserList()
+        {
+            var users = _userManager.Users.ToList();
+            return View(users);
         }
     }
 }

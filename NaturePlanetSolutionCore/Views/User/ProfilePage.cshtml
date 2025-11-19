@@ -1,4 +1,5 @@
 ﻿@model NaturePlanetSolutionCore.Models.ViewModels.ProfileViewModel
+@using Microsoft.AspNetCore.Identity
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-6 col-lg-4 p-4 shadow rounded bg-white">
@@ -11,5 +12,12 @@
                 <a asp-action="ChangePassword" class="btn btn-outline-success btn-sm">Change Password</a>
             </dd>
         </dl>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <form asp-controller="User" asp-action="UserList" method="get">
+                <button type="submit" class="btn btn-primary">View All Users</button>
+            </form>
+        }
     </div>
 </div>
