@@ -11,8 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//builder.Services.AddDbContext<DatabaseContext>(options =>
+//    options.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanetDB;Persist Security Info=False;User ID=natureplanetadmin;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanetDB;Persist Security Info=False;User ID=natureplanetadmin;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+    options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=NaturePlanetCopy;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -27,19 +30,19 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddLocalization(options =>
-{
-    options.ResourcesPath = "Resources";
-});
+//builder.Services.AddLocalization(options =>
+//{
+//    options.ResourcesPath = "Resources";
+//});
 
-var supportedLanguages = new string[] { "en", "da", "fr", "de" };
+//var supportedLanguages = new string[] { "en", "da", "fr", "de" };
 
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.SetDefaultCulture("en");
-    options.AddSupportedCultures(supportedLanguages);
-    options.AddSupportedUICultures(supportedLanguages);
-});
+//builder.Services.Configure<RequestLocalizationOptions>(options =>
+//{
+//    options.SetDefaultCulture("en");
+//    options.AddSupportedCultures(supportedLanguages);
+//    options.AddSupportedUICultures(supportedLanguages);
+//});
 
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductBLL>();
@@ -75,8 +78,8 @@ app.UseRouting();
 
 app.UseSession();
 
-var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
-app.UseRequestLocalization(locOptions.Value);
+//var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+//app.UseRequestLocalization(locOptions.Value);
 
 app.UseAuthentication();
 app.UseAuthorization();

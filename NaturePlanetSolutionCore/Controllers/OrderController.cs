@@ -17,6 +17,14 @@ namespace NaturePlanetSolutionCore.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public IActionResult Order()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult Order(IFormCollection collection)
         {
             var navn = collection["name-order"];

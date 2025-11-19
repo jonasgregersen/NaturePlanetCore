@@ -12,8 +12,7 @@ namespace NaturePlanetSolutionCore.Models.ViewModels
         [EmailAddress]
         public string Email { get; set; }
         
-        public string ConfirmPassword { get; set; }
-
+       
 
 
         

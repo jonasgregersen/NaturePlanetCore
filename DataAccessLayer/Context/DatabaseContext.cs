@@ -15,22 +15,19 @@ namespace DataAccessLayer.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // 1. IDENTITY FØRST!
+            // Identity først
             base.OnModelCreating(modelBuilder);
 
-            // 2. DINE ENTITETER
+            // PRODUCT
             modelBuilder.Entity<DALProduct>(entity =>
             {
                 entity.HasKey(p => p.ProductId);
-                entity.Property(p => p.ProductId)
-                      .HasColumnName("ProductId")
-                      .HasMaxLength(50)
-                      .ValueGeneratedNever();
 
-                entity.Property(p => p.Weight)
-                      .HasColumnName("Weight")
-                      .HasColumnType("decimal(18,4)")
-                      .HasDefaultValue(0m);
+                entity.Property(p => p.ProductId)
+                    .HasColumnName("ProductID")
+                    .HasMaxLength(50)
+                    .HasColumnType("varchar(50)")
+                    .ValueGeneratedNever();
 
                 entity.Property(p => p.Name).HasColumnName("Name").HasMaxLength(200);
                 entity.Property(p => p.EAN).HasColumnName("EAN").HasMaxLength(50);
@@ -40,31 +37,64 @@ namespace DataAccessLayer.Context
                 entity.Property(p => p.Product_Category_1).HasColumnName("Product_Category_1").HasMaxLength(100);
                 entity.Property(p => p.Product_Category_2).HasColumnName("Product_Category_2").HasMaxLength(100);
                 entity.Property(p => p.Product_Category_3).HasColumnName("Product_Category_3").HasMaxLength(100);
+
+                entity.Property(p => p.Weight)
+                    .HasColumnName("Weight")
+                    .HasColumnType("decimal(18,4)")
+                    .HasDefaultValue(0m);
             });
 
+            // ORDER
             modelBuilder.Entity<DALOrder>(entity =>
             {
                 entity.HasKey(o => o.OrderId);
                 entity.Property(o => o.OrderId).ValueGeneratedOnAdd();
 
                 entity.HasOne(o => o.User)
-                      .WithMany(u => u.Orders)
-                      .HasForeignKey(o => o.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                    .WithMany(u => u.Orders)
+                    .HasForeignKey(o => o.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
+            // ORDERPRODUCTS JOIN TABLE – vigtig!
             modelBuilder.Entity<DALOrder>()
                 .HasMany(o => o.Products)
                 .WithMany(p => p.Orders)
                 .UsingEntity<Dictionary<string, object>>(
                     "OrderProducts",
-                    j => j.HasOne<DALProduct>().WithMany().HasForeignKey("ProductId"),
-                    j => j.HasOne<DALOrder>().WithMany().HasForeignKey("OrderId"),
+
+                    // FK til PRODUCT
+                    j => j
+                        .HasOne<DALProduct>()
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .HasPrincipalKey(p => p.ProductId)
+                        .OnDelete(DeleteBehavior.Cascade),
+
+                    // FK til ORDER
+                    j => j
+                        .HasOne<DALOrder>()
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .HasPrincipalKey(o => o.OrderId)
+                        .OnDelete(DeleteBehavior.Cascade),
+
+                    // Konfiguration af join-tabellen
                     j =>
                     {
+                        // PK (kombineret)
                         j.HasKey("OrderId", "ProductId");
+
                         j.ToTable("OrderProducts");
-                    });
+
+                        // Sikrer korrekt datatype i SQL
+                        j.Property<string>("ProductId")
+                            .HasColumnType("varchar(50)");
+
+                        j.Property<int>("OrderId")
+                            .HasColumnType("int");
+                    }
+                );
         }
     }
 }

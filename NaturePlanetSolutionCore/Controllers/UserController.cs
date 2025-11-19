@@ -131,10 +131,10 @@ namespace NaturePlanetSolutionCore.Controllers
             return RedirectToAction("Login", "User");
         }
 
-        public IActionResult ViewOrder()
+        public IActionResult Cart()
         {
             var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
-            return View("Order", order);
+            return View("Cart", order);
         }
 
         [Authorize]
