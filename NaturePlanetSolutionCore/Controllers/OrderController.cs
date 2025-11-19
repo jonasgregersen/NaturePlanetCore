@@ -39,7 +39,13 @@ namespace NaturePlanetSolutionCore.Controllers
             var dalOrder = OrderMapper.Map(order);
             user.Orders.Add(dalOrder);
             _orderBLL.CreateOrder(order);
-            return View("Index");
+            return View("Confirmation");
+        }
+
+        [HttpGet]
+        public IActionResult Confirmation()
+        {
+            return View();
         }
     }
 }
