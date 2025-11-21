@@ -9,28 +9,14 @@ namespace DataAccessLayer.Mappers
     {
         public static Order Map(OrderDto orderDto)
         {
-            if (orderDto?.Products == null) 
-                return new Order { Products = new List<DALProduct>() };
-
-            var order = new Order
+            return new Order
             {
                 OrderNumber = orderDto.OrderNumber,
-                Products = orderDto.Products
-                    .Where(p => p != null)
-                    .Select(p => new DALProduct
-                    {
-                        ProductId = p.Id.ToString(), 
-                        Name = p.Name,
-                        EAN = p.EAN,
-                        ERP_Source = p.ErpSource,
-                        Active = p.Active,
-                        Weight = p.Weight ?? 0m
-                    })
-                    .ToList()
+                // Products udfyldes IKKE her
+                Products = new List<DALProduct>()
             };
-
-            return order;
         }
+
 
         public static OrderDto MapToDto(Order order)
         {

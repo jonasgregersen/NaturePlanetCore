@@ -43,6 +43,12 @@ namespace DataAccessLayer.Repositories
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
+        public DALProduct GetProductById(string id)
+        {
+            return _context.Products.FirstOrDefault(p => p.ProductId == id);
+        }
+
+
         public void AddOrder(Order order)
         {
             if (order == null) 
