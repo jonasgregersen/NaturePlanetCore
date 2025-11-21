@@ -13,7 +13,8 @@ namespace DataAccessLayer.Mappers
             {
                 OrderNumber = orderDto.OrderNumber,
                 UserId = orderDto.UserId,
-                Products = new List<DALProduct>()
+                Products = new List<DALProduct>(),
+                OrderDate = orderDto.OrderDate
             };
         }
 
@@ -44,7 +45,8 @@ namespace DataAccessLayer.Mappers
             {
                 OrderNumber = order.OrderNumber,
                 Products = productDtos,
-                UserId = order.UserId
+                UserId = order.UserId,
+                OrderDate = order.OrderDate
             };
 
 

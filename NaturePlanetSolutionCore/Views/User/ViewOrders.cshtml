@@ -1,3 +1,4 @@
+@using System.Xml.Linq
 @model List<DataTransferLayer.Model.OrderDto>
 
 
@@ -19,16 +20,13 @@
             {
                 <tr>
                     <th>@order.OrderNumber</th>
-          
+                    <th>
                     @foreach (var product in order.Products)
                     {
-                       
-                            
-                        <th>@product.Name</th>
-                            
-                       
+                       @product.Name <br/>
                     }
-                    <th>@DateTime.Now</th>
+                </th>
+                    <th>@order.OrderDate</th>
                 </tr>
             }
                 

@@ -51,7 +51,8 @@ namespace NaturePlanetSolutionCore.Controllers
             {
                 Products = cart.Products,
                 OrderNumber = cart.GenerateOrderNumber(),
-                UserId = user.Id
+                UserId = user.Id,
+                OrderDate = DateTime.Now
             };
     
             // Add the order
