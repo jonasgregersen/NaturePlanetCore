@@ -12,11 +12,8 @@ namespace DataTransferLayer.Model
 
         public virtual List<ProductDto> Products { get; set; } 
 
-        public OrderDto(int orderNumber, List<ProductDto> products)
-        {
-            OrderNumber = orderNumber;
-            Products = products;
-        }
+        public string UserId { get; set; } 
+     
 
         public OrderDto()
         {

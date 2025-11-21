@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Model;
 using DataAccessLayer.Mappers;
+using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
 using DataTransferLayer.Model;
 using DTOProduct = DataTransferLayer.Model.ProductDto;
@@ -18,6 +19,11 @@ namespace Business.Model
         public List<DTOProduct> Products { get; set; } = new List<DTOProduct>();
         private readonly OrderRepository _orderRepository;
 
+        public OrderBLL(OrderRepository orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
+
 
         public List<DTOProduct> GetProducts()
         {
@@ -28,7 +34,14 @@ namespace Business.Model
         {
             Products.Add(product);
         }
-
+        
+        
+        public List<OrderDto> GetUserOrders(string id)
+        {
+            return _orderRepository.GetAllOrdersForUser(id)
+                .Select(o => OrderMapper.MapToDto(o))
+                .ToList();
+        }
         public void CreateOrder(OrderDto order)
         {
             var DALorder = OrderMapper.Map(order);

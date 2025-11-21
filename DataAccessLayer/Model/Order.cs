@@ -14,11 +14,11 @@ namespace DataAccessLayer.Model
         public int OrderId { get; set; }
         public int OrderNumber { get; set; }
 
+
         public ApplicationUser? User { get; set; }
 
         public string? UserId { get; set; }
         public virtual List<DALProduct> Products { get; set; } = new List<DALProduct>();
-
 
         public Order() { }
         public Order(int orderNumber, List<DALProduct> products)

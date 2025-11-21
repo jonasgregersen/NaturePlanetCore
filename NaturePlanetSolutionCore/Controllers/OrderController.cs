@@ -1,9 +1,11 @@
 ﻿using Business.Model;
+using DataAccessLayer.Context;
 using DataAccessLayer.Mappers;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using DALOrder = DataTransferLayer.Model.OrderDto;
+using Microsoft.EntityFrameworkCore;
+using DALOrder = DataAccessLayer.Model.Order;
 using DTOOrder = DataTransferLayer.Model.OrderDto;
 
 namespace NaturePlanetSolutionCore.Controllers
@@ -12,6 +14,14 @@ namespace NaturePlanetSolutionCore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private OrderBLL _orderBLL;
+        private DatabaseContext _context;
+
+        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL,  DatabaseContext databaseContext)
+        {
+            _userManager = userManager;
+            _orderBLL = orderBLL;
+            _context = databaseContext;
+        }
         public IActionResult Index()
         {
             return View();
@@ -19,34 +29,37 @@ namespace NaturePlanetSolutionCore.Controllers
 
 
         [HttpGet]
-        public IActionResult Order()
+        public IActionResult Checkout()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Order(IFormCollection collection)
+        public async Task<IActionResult> Checkout(IFormCollection collection)
         {
-            var navn = collection["name-order"];
-            var email = collection["email-order"];
+            var cart = HttpContext.Session.GetObject<Cart>("cart");
+            var user = await _userManager.GetUserAsync(User);
 
-            var user = _userManager.FindByEmailAsync(email).Result;
-            
             if (user == null)
             {
                 ModelState.AddModelError("", "Invalid Email");
+                return View("Error");
             }
-            var order = HttpContext.Session.GetObject<DTOOrder>("order");
-            var dalOrder = OrderMapper.Map(order);
-            user.Orders.Add(dalOrder);
+
+            // Create DTO
+            var dtoOrder = new DTOOrder
+            {
+                Products = cart.Products,
+                OrderNumber = cart.GenerateOrderNumber(),
+                UserId = user.Id
+            };
+    
+            // Add the order
             _orderBLL.CreateOrder(dtoOrder);
             HttpContext.Session.Remove("cart");
             return View("Confirmation", cart);
 
         }
-
-       
-
         [HttpGet]
         public IActionResult Confirmation()
         {

@@ -1,3 +1,4 @@
+using Business.Model;
 using DataAccessLayer.Model;
 using DataTransferLayer.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,10 @@ public class CartViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
-        var cart = HttpContext.Session.GetObject<OrderDto>("order");
+        var cart = HttpContext.Session.GetObject<Cart>("cart");
         if (cart == null)
         {
-            cart = new OrderDto();
+            cart = new Cart();
             cart.Products = new List<ProductDto>();
         }
 

@@ -1,9 +1,9 @@
-@model Business.Model.OrderBLL
+@model Business.Model.Cart
 
-@if (Model.GetProducts().Any())
+@if (Model.Products.Any())
 {
     <div class="cart-container">
-    @foreach (var product in Model.GetProducts())
+    @foreach (var product in Model.Products)
     {
         <div class="cart-item-row">
         <p>@product.Name</p>
@@ -12,7 +12,7 @@
     }
 
     <div class="checkout-row">
-            <a asp-controller="Order" asp-action="Order" class="viewcart-button">Go to checkout</a>
+            <a asp-controller="Order" asp-action="Checkout" class="viewcart-button">Go to checkout</a>
     </div>
     </div>
     

@@ -1,51 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DTOOrder = DataTransferLayer.Model.OrderDto;
-using DALOrder = DataAccessLayer.Model.Order;
-using DTOProduct = DataTransferLayer.Model.ProductDto;
-using DALProduct = DataAccessLayer.Model.DALProduct;
-
-using DataTransferLayer.Model;
 using DataAccessLayer.Model;
-
+using DataTransferLayer.Model;
 
 namespace DataAccessLayer.Mappers
 {
-    public class OrderMapper
+    public static class OrderMapper
     {
-        public static DTOOrder Map(DALOrder order)
+        public static Order Map(OrderDto orderDto)
         {
-            if (order != null)
+            if (orderDto?.Products == null) 
+                return new Order { Products = new List<DALProduct>() };
+
+            var order = new Order
             {
-                var _products = new List<DTOProduct>();
-                var products = order.Products;
-                foreach(var product in products)
-                {
-                    _products.Add(ProductMapper.Map(product));
-                    
-                }
-                return new DTOOrder(order.OrderNumber, _products);
-            }
-            return null;
+                OrderNumber = orderDto.OrderNumber,
+                Products = orderDto.Products
+                    .Where(p => p != null)
+                    .Select(p => new DALProduct
+                    {
+                        ProductId = p.Id.ToString(), 
+                        Name = p.Name,
+                        EAN = p.EAN,
+                        ERP_Source = p.ErpSource,
+                        Active = p.Active,
+                        Weight = p.Weight ?? 0m
+                    })
+                    .ToList()
+            };
+
+            return order;
         }
 
-        public static DALOrder Map(DTOOrder order)
+        public static OrderDto MapToDto(Order order)
         {
-            if (order != null)
-            {
-                var _products = new List<DALProduct>();
-                var products = order.Products;
-                foreach (var product in products)
-                {
-                    _products.Add(ProductMapper.Map(product));
+            if (order?.Products == null)
+                return new OrderDto{OrderNumber = 0, Products = new List<ProductDto>()};
 
-                }
-                return new DALOrder(order.OrderNumber, _products);
-            }
-            return null;
+            var productDtos = order.Products
+                .Where(p => p != null)
+                .Select(p => new ProductDto(
+                    name: p.Name,
+                    ean: p.EAN,
+                    erpSource: p.ERP_Source,
+                    active: p.Active,
+                    quantityInBag: 1,  
+                    weight: p.Weight,
+                    segment: string.Empty,  
+                    productCategory1: string.Empty,
+                    productCategory2: string.Empty,
+                    productCategory3: string.Empty
+                ))
+                .ToList();
+
+            return new OrderDto
+            {
+                OrderNumber = order.OrderNumber,
+                Products = productDtos
+            };
+
+
         }
     }
 }

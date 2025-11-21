@@ -1,6 +1,7 @@
 ﻿using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
+using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,15 @@ namespace NaturePlanetSolutionCore.Controllers
 
         private readonly DatabaseContext _context;
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context)
+        private readonly OrderBLL _orderBLL;
+        
+
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context, OrderBLL orderBLL)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _context = context;
+            _orderBLL = orderBLL;
         }
 
         public IActionResult Index()
@@ -72,6 +77,7 @@ namespace NaturePlanetSolutionCore.Controllers
 
             if (createUser.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "User");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
@@ -133,14 +139,24 @@ namespace NaturePlanetSolutionCore.Controllers
 
         public IActionResult Cart()
         {
-            var order = HttpContext.Session.GetObject<OrderBLL>("order") ?? new OrderBLL();
+            var order = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
             return View("Cart", order);
         }
 
         [HttpGet]
-        public IActionResult ViewOrders()
+        [Authorize]
+        public async Task<IActionResult> ViewOrders()
         {
-            return View();
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var orders = _orderBLL.GetUserOrders(user.Id);
+            return View(orders);
         }
 
         [Authorize]
@@ -193,6 +209,48 @@ namespace NaturePlanetSolutionCore.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UserList()
+        {
+            var users = _userManager.Users.ToList();
+            return View(users);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> PromoteToAdmin(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                await _userManager.AddToRoleAsync(user, "Admin");
+
+            return RedirectToAction("UserList");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> SetUserRole(string userId, string role)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            // Remove from both roles first
+            if (await _userManager.IsInRoleAsync(user, "Admin"))
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+            if (await _userManager.IsInRoleAsync(user, "User"))
+                await _userManager.RemoveFromRoleAsync(user, "User");
+
+            // Add to selected role
+            if (!string.IsNullOrEmpty(role))
+                await _userManager.AddToRoleAsync(user, role);
+
+            return RedirectToAction("UserList");
         }
     }
 }

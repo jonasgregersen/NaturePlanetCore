@@ -11,11 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddDbContext<DatabaseContext>(options =>
-//    options.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanetDB;Persist Security Info=False;User ID=natureplanetadmin;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
-
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=NaturePlanetCopy;Trusted_Connection=True;TrustServerCertificate=True;"));
+    options.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanetDB;Persist Security Info=False;User ID=natureplanetadmin;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -46,6 +45,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductBLL>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderBLL>();
+
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -64,6 +66,20 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
+
+// Seed roles
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = { "Admin", "User" };
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -100,8 +116,6 @@ app.MapControllerRoute(
     name: "productDetails",
     pattern: "Products/Details/{productName}",
     defaults: new { controller = "Products", action = "Details" });
-
-
 
 
 
