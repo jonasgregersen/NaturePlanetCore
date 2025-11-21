@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using DataTransferLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +33,10 @@ namespace DataAccessLayer.Repositories
 
         public List<DALOrder> GetAllOrdersForUser(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
 
-            return _context.Orders.Where(o =>  o.UserId == id).ToList();
+
+            return _context.Orders.Where(o =>  o.UserId == id).
+                Include(o => o.Products).ToList();
 
         }
 

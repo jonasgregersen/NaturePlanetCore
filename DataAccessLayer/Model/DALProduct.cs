@@ -44,19 +44,6 @@ namespace DataAccessLayer.Model
         public virtual List<Order> Orders { get; set; } = new();
 
         public DALProduct() { }
-        public DALProduct(string name, string? ean, string erpSource, bool active, int? quantityInBag, decimal? weight,
-        string segment, string productCategory1, string productCategory2, string productCategory3)
-        {
-            Name = name;
-            EAN = ean;
-            ERP_Source = erpSource;
-            Active = active;
-            Purchase_quantity_step = quantityInBag ?? 0;
-            Weight = weight ?? 0;
-            Segment = segment;
-            Product_Category_1 = productCategory1;
-            Product_Category_2 = productCategory2;
-            Product_Category_3 = productCategory3;
-        }
+       
     }
 }

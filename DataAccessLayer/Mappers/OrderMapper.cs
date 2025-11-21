@@ -12,7 +12,7 @@ namespace DataAccessLayer.Mappers
             return new Order
             {
                 OrderNumber = orderDto.OrderNumber,
-                // Products udfyldes IKKE her
+                UserId = orderDto.UserId,
                 Products = new List<DALProduct>()
             };
         }
@@ -25,24 +25,26 @@ namespace DataAccessLayer.Mappers
 
             var productDtos = order.Products
                 .Where(p => p != null)
-                .Select(p => new ProductDto(
-                    name: p.Name,
-                    ean: p.EAN,
-                    erpSource: p.ERP_Source,
-                    active: p.Active,
-                    quantityInBag: 1,  
-                    weight: p.Weight,
-                    segment: string.Empty,  
-                    productCategory1: string.Empty,
-                    productCategory2: string.Empty,
-                    productCategory3: string.Empty
-                ))
+                .Select(p => new ProductDto
+                {
+                    Id = p.ProductId,
+                    Name = p.Name,
+                    EAN = p.EAN,
+                    ErpSource = p.ERP_Source,
+                    Active = p.Active,
+                    QuantityInBag = 1,
+                    Weight = p.Weight,
+                    Segment = string.Empty,
+                    Product_Category_1 = string.Empty,
+                    Product_Category_2 = string.Empty,
+                    Product_Category_3 = string.Empty
+                })
                 .ToList();
-
             return new OrderDto
             {
                 OrderNumber = order.OrderNumber,
-                Products = productDtos
+                Products = productDtos,
+                UserId = order.UserId
             };
 
 

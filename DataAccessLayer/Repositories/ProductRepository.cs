@@ -12,11 +12,24 @@ public class ProductRepository
         _context = context;
     }
 
-    public void CreateProduct(string productName, string ean, string erpSource, bool active, string productCategory1,
+    public void CreateProduct(string id,string productName, string ean, string erpSource, bool active, string productCategory1,
         string productCategory2, string productCategory3, int quantityInBag, decimal productWeight,
         string productSegment)
     {
-        var product = new DALProduct(productName, ean, erpSource, active, quantityInBag, productWeight, productSegment, productCategory1, productCategory2, productCategory3);
+        var product = new DALProduct
+        {
+            ProductId = id,
+            Name = productName,
+            EAN = ean,
+            ERP_Source = erpSource,
+            Active = active,
+            Purchase_quantity_step = quantityInBag,
+            Weight = productWeight,
+            Segment = productSegment,
+            Product_Category_1 = productCategory1,
+            Product_Category_2 = productCategory2,
+            Product_Category_3 = productCategory3
+        };
         _context.Products.Add(product);
         _context.SaveChanges();
     }
