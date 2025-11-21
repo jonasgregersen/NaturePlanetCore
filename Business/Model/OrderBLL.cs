@@ -42,10 +42,22 @@ namespace Business.Model
                 .Select(o => OrderMapper.MapToDto(o))
                 .ToList();
         }
-        public void CreateOrder(OrderDto order)
+        public void CreateOrder(OrderDto orderDto)
         {
-            var DALorder = OrderMapper.Map(order);
-            _orderRepository.AddOrder(DALorder);
+            var dalOrder = OrderMapper.Map(orderDto);
+
+            dalOrder.UserId = orderDto.UserId;
+
+            foreach (var dtoProduct in orderDto.Products)
+            {
+                var product = _orderRepository.GetProductById(dtoProduct.Id.ToString());
+
+                if (product != null)
+                    dalOrder.Products.Add(product);
+            }
+
+            _orderRepository.AddOrder(dalOrder);
         }
+
     }
 }
