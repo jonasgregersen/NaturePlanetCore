@@ -1,0 +1,40 @@
+@model DataTransferLayer.Model.ProductDto
+
+@using (Html.BeginForm("CreateProduct", "User", FormMethod.Post))
+{
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="EAN">EAN</label>
+        <input asp-for="EAN"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="ErpSource">Erp Source</label>
+        <input asp-for="ErpSource"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="QuantityInBag">Quantity In Bag</label>
+        <input asp-for="QuantityInBag"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Weight">Weight</label>
+        <input asp-for="Weight"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Product_Category_1">Product Type 1</label>
+        <input asp-for="Product_Category_1"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Product_Category_2">Product Type 2</label>
+        <input asp-for="Product_Category_2"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Product_Category_3">Product Type 3</label>
+        <input asp-for="Product_Category_3"/>
+    </div>
+    
+    <button type="submit">Create product</button>
+    
+}
