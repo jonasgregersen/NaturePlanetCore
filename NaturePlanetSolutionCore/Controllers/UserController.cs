@@ -5,6 +5,7 @@ using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using NaturePlanetSolutionCore.Models.ViewModels;
 
 namespace NaturePlanetSolutionCore.Controllers
@@ -141,6 +142,20 @@ namespace NaturePlanetSolutionCore.Controllers
         {
             var order = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
             return View("Cart", order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveFromCart(string productId)
+        {
+            var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+            var productToRemove = cart.Products.FirstOrDefault(p => p.Id == productId);
+            if (productToRemove != null)
+            {
+                cart.Products.Remove(productToRemove);
+                HttpContext.Session.SetObject("cart", cart);
+            }
+            return RedirectToAction("Cart");
         }
 
         [HttpGet]
