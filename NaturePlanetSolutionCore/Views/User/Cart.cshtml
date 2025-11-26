@@ -1,0 +1,26 @@
+@model Business.Model.Cart
+
+@if (Model.Products.Any())
+{
+    <div class="cart-container">
+    @foreach (var product in Model.Products)
+    {
+        <div class="cart-item-row">
+            <p>@product.Name</p>
+            <form asp-action="RemoveFromCart" asp-controller="User" method="post" style="display:inline;">
+                <input type="hidden" name="productId" value="@product.Id" />
+                @Html.AntiForgeryToken()
+                <button type="submit" class="remove-button">Remove</button>
+            </form>
+        </div>
+    }
+
+    <div class="checkout-row">
+        <a asp-controller="Order" asp-action="Checkout" class="viewcart-button">Go to checkout</a>
+    </div>
+    </div>
+}
+else
+{
+    <p>No products in the cart</p>
+}

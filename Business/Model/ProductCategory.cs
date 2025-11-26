@@ -3,7 +3,8 @@ namespace Business.Model;
 public class ProductCategory: Component
 {
     public string Name { get; set; }
-    public List<Component> children = new List<Component>();
+    public Component Parent { get; set; }
+    public List<ProductCategory> Children { get; set; } = new List<ProductCategory>();
     
     public override double getPrice()
     {

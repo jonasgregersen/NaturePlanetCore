@@ -18,9 +18,9 @@ public class ProductBLL: Component
         return 0;
     }
 
-    public List<Product> getAllProducts()
+    public async Task<List<ProductDto>> getAllProducts()
     {
-        var products = _productRepository.GetAllProducts();
+        var products = await _productRepository.GetAllProducts();
         if (!products.Any())
         {
             throw new Exception("Ingen produkter fundet.");
@@ -29,20 +29,38 @@ public class ProductBLL: Component
         return products.Select(p => ProductMapper.Map(p)).ToList();
     }
 
-    public Product GetProductByName(string productName)
+    public async Task<ProductDto> GetProductByName(string productName)
     {
-        return ProductMapper.Map(_productRepository.GetAllProducts()
-            .First(p => p.Name == productName));
+        var products = await _productRepository.GetAllProducts();
+        return  ProductMapper.Map(products.FirstOrDefault(p => p.Name == productName));
+
     }
 
-    public List<Product> SearchProducts(string query)
+    public async Task<List<ProductDto>> getAllProductsByCategory(string? category, string? category2 = null, string? category3 = null)
     {
-        var products = _productRepository.GetAllProducts()
-            .Where(p => p.Name.ToLower().Contains(query.ToLower()));
+        var products = await _productRepository.GetAllProducts();
         if (!products.Any())
         {
             throw new Exception("Ingen produkter fundet.");
         }
-        return products.Select(p => ProductMapper.Map(p)).ToList();
+        return products
+            .Where(p => 
+                category == null || p.Product_Category_1 == category &&
+                category2 == null || p.Product_Category_2 == category2 &&
+                category3 == null || p.Product_Category_3 == category3
+                )
+            .Select(p => ProductMapper.Map(p)).ToList();
+    }
+
+    public async Task<List<ProductDto>> SearchProducts(string query)
+    {
+        var products = await _productRepository.GetAllProducts();
+        var formattedQuery = query.ToLower().Trim();
+        var candidates = products.Where(p => p.Name.ToLower().Contains(formattedQuery)).ToList();
+        if (!candidates.Any())
+        {
+            throw new Exception("Ingen produkter fundet.");
+        }
+        return candidates.Select(p => ProductMapper.Map(p)).ToList();
     }
 }

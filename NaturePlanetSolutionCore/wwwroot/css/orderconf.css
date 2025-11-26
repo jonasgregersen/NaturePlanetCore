@@ -1,0 +1,12 @@
+﻿.order-summary table {
+    width: 100%;
+    margin-top: 1rem;
+    background: #fff;
+    border-radius: 6px;
+}
+
+.order-summary th,
+.order-summary td {
+    padding: 12px;
+    vertical-align: middle;
+}

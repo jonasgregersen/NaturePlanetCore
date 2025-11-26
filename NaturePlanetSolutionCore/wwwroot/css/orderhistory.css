@@ -1,0 +1,44 @@
+﻿.order-history-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.order-history-header h1 {
+    text-align: left;
+    margin: 20px 0;
+    padding-left: 10px;
+    font-size: 2rem;
+    color: #2f4f2f;
+}
+
+.order-history {
+    width: 100%;
+}
+
+    .order-history table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-history th,
+    .order-history td {
+        padding: 12px 10px;
+        vertical-align: middle;
+    }
+
+    .order-history thead th {
+        background: #4c8656;
+        color: white;
+        font-weight: 500;
+        border-bottom: 2px solid #3b6b44;
+    }
+
+    .order-history tbody tr:nth-child(odd) {
+        background: #f7f7f7;
+    }
+
+    .order-history tbody tr:hover {
+        background: #eef7ef;
+        transition: 0.15s ease;
+    }

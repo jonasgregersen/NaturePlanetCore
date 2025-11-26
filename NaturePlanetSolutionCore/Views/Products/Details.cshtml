@@ -1,4 +1,4 @@
-@model DataTransferLayer.Model.Product
+@model DataTransferLayer.Model.ProductDto
 
 
 <a class="product-category-1"
@@ -28,10 +28,13 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-   <button class="to-order-button"
-           asp-controller="Products"
-           asp-action="AddToOrder"
-           asp-route-productName="@Model.Name">
-      Tilføj til kurv
-   </button>
+   @using (Html.BeginForm("AddToOrder", "Products", FormMethod.Post))
+   {
+      <button class="to-order-button"
+              asp-controller="Products"
+              asp-action="AddToOrder"
+              asp-route-productName="@Model.Name">
+         Tilføj til kurv
+      </button>
+   }
 }

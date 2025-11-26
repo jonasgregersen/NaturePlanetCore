@@ -1,0 +1,36 @@
+@using System.Xml.Linq
+@model List<DataTransferLayer.Model.OrderDto>
+
+
+<div class="order-history-container">
+    <div class="order-history-header">
+        <h1>Your Orders</h1>
+    </div>
+    <div class="order-history">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Products</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <th>@order.OrderNumber</th>
+                    <th>
+                    @foreach (var product in order.Products)
+                    {
+                       @product.Name <br/>
+                    }
+                </th>
+                    <th>@order.OrderDate</th>
+                </tr>
+            }
+                
+            </tbody>
+        </table>
+    </div>
+</div>

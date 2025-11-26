@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/NaturePlanetSolutionCore.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/cart.css"/>
+    <link rel="stylesheet" href="~/css/orderhistory.css" />
 </head>
 <body>
 <header>
@@ -29,13 +31,18 @@
         </div>
         <div class="nav-container">
             <ul class="nav-elements">
+                    <li>
+                        @await Component.InvokeAsync("Cart")
+                        </li>
                 <li>
+                        
                     <div class="user-dropdown">
                         <p>User</p>
                         <div class="user-dropdown-content">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a asp-controller="User" asp-action="Edit">Profile</a>
+                                <a asp-controller="User" asp-action="Profile">Profile</a>
+                                <a asp-controller="User" asp-action="ViewOrders">Order History</a>
                                 <a asp-controller="User" asp-action="Logout">Logout</a>
                             }
                             else
@@ -67,6 +74,7 @@
                     </div>
                 </li>
             </ul>
+            
         </div>
     </div>
     <nav class="category-nav">
