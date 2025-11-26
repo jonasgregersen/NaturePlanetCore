@@ -31,7 +31,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> FilterByCategory(string? category1 = null, string? category2 = null,
         string? category3 = null)
     {
-        var queryProducts = await _productBLL.getAllProductsByCategory(category1, category2, category3);
+        var queryProducts = await _productBLL.GetAllProductsByCategory(category1, category2, category3);
         return View("index", queryProducts);
     }
 

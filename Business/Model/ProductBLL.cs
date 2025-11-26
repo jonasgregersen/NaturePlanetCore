@@ -48,7 +48,8 @@ public class ProductBLL: Component
     }
 
 
-    public async Task<List<ProductDto>> getAllProductsByCategory(string? category, string? category2 = null, string? category3 = null)
+    public async Task<List<ProductDto>> GetAllProductsByCategory(string? category, string? category2 = null,
+        string? category3 = null)
     {
         var products = await _productRepository.GetAllProducts();
         if (!products.Any())
@@ -58,8 +59,8 @@ public class ProductBLL: Component
         return products
             .Where(p => 
                 p.Product_Category_1 == category &&
-                category2 == null || p.Product_Category_2 == category2 &&
-                category3 == null || p.Product_Category_3 == category3
+                (category2 == null || p.Product_Category_2 == category2) &&
+                (category3 == null || p.Product_Category_3 == category3)
                 )
             .Select(p => ProductMapper.Map(p)).ToList();
     }

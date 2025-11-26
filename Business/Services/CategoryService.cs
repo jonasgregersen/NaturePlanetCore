@@ -38,7 +38,7 @@ public class CategoryService
             foreach (var lvl2 in level2Groups)
             {
                 var level3Groups = products
-                    .Where(p => p.Product_Category_3 != null && p.Product_Category_2 == lvl2.Name)
+                    .Where(p => p.Product_Category_3 != null && p.Product_Category_2 == lvl2.Name && p.Product_Category_1 == lvl1.Name)
                     .GroupBy(p => p.Product_Category_3)
                     .Select(p => new ProductCategory() { Name = p.Key})
                     .ToList();
