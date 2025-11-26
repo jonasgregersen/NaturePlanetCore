@@ -39,39 +39,9 @@ public class ProductRepository
         return _context.Products.FirstOrDefault(e => e.ProductId == id);
     }
 
-    public List<DALProduct> GetAllProducts()
+    public async Task<List<DALProduct>> GetAllProducts()
     {
         return _context.Products.ToList();
-    }
-
-    public List<string> GetSubCategory_2_Of(string categoryName)
-    {
-        return _context.Products
-            .Where(p => p.Product_Category_1 == categoryName)
-            .Select(p => p.Product_Category_2).ToList()
-            .Distinct()
-            .OrderBy(p => p)
-            .ToList();
-    }
-
-    public List<string> GetSubCategory_3_Of(string categoryName)
-    {
-        return _context.Products
-            .Where(p => p.Product_Category_2 == categoryName)
-            .Select(p => p.Product_Category_3)
-            .Distinct()
-            .OrderBy(p => p)
-            .ToList();
-    }
-
-    public List<string> GetCategories()
-    {
-        return _context.Products
-            .Where(p => p.Product_Category_1 != null)
-            .Select(p => p.Product_Category_1)
-            .Distinct()
-            .OrderBy(p => p)
-            .ToList();
     }
     public void RemoveProduct(DALProduct product)
     {

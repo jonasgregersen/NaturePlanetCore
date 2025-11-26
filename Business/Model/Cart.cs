@@ -22,4 +22,18 @@ public class Cart
     {
         return RandomNumberGenerator.GetInt32(10000);
     }
+
+    public int GetSingleProductQuantity(ProductDto product)
+    {
+        return Products.Where(p => p.Id == product.Id).Count();
+    }
+
+    public List<ProductDto> ProductSet()
+    {
+        var productSet = Products
+            .GroupBy(p => p.Name)
+            .Select(p => p.First())
+            .ToList();
+        return productSet;
+    }
 }
