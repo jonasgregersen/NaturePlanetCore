@@ -2,6 +2,7 @@
 @model List<DataTransferLayer.Model.ProductDto>
 
 <div class="product-container">
+    @Html.ValidationSummary()
     @foreach (var product in @Model)
     {
         <div class="product-@product.Name">

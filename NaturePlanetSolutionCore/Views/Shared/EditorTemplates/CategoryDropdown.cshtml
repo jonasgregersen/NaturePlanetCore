@@ -1,0 +1,12 @@
+
+@model string
+@{
+    var categories = ViewData["Categories"] as List<string> ?? new List<string>();
+}
+@Html.DropDownList(
+    "", 
+    new SelectList(categories, Model), 
+    "Vælg kategori", 
+    new { @class = "form-control" }
+)
+@Html.ValidationMessage("", "", new { @class = "text-danger" })

@@ -119,6 +119,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Products", action = "Search" });
 
 app.MapControllerRoute(
+    name: "createProduct",
+    pattern: "Products/CreateProduct",
+    defaults: new { controller = "Products", action = "CreateProduct" });
+
+app.MapControllerRoute(
     name: "productDetails",
     pattern: "Products/Details/{productName}",
     defaults: new { controller = "Products", action = "Details" });

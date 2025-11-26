@@ -3,20 +3,23 @@
 
 <a class="product-category-1"
    asp-controller="Products"
-   asp-action="Index"
-   asp-route-category="@Model.Product_Category_1">
+   asp-action="FilterByCategory"
+   asp-route-category1="@Model.Product_Category_1"
+   asp-route-category2="@null"
+   asp-route-category3="@null">
    @Model.Product_Category_1
 </a> > 
 <a class="product-category-2"
    asp-controller="Products"
-   asp-action="Index"
+   asp-action="FilterByCategory"
    asp-route-category1="@Model.Product_Category_1"
-   asp-route-category2="@Model.Product_Category_2">
+   asp-route-category2="@Model.Product_Category_2"
+   asp-route-category3="@null">
    @Model.Product_Category_2
 </a> > 
 <a class="product-category-3"
    asp-controller="Products"
-   asp-action="Index"
+   asp-action="FilterByCategory"
    asp-route-category1="@Model.Product_Category_1"
    asp-route-category2="@Model.Product_Category_2"
    asp-route-category3="@Model.Product_Category_3">
