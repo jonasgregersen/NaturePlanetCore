@@ -1,38 +1,46 @@
-@model List<NaturePlanetSolutionCore.ViewComponents.CategoryMenuViewComponent.CategoryViewModel>
+@model List<Business.Model.ProductCategory>
 
 <ul class="navbar-nav category-menu">
     @foreach (var category in Model)
     {
         <li class="nav-item dropdown">
-            <a class="nav-link text-white" asp-controller="Products" asp-action="Index" asp-route-category="@category.Name">@category.Name</a>
+            <a class="nav-link text-white"
+               asp-controller="Products"
+               asp-action="FilterByCategory"
+               asp-route-category1="@category.Name"
+               asp-route-category2="@null"
+               asp-route-category3="@null">
+                @category.Name
+            </a>
 
-            @if (category.Subcategories.Any())
+            @if (category.Children.Any())
             {
                 <ul class="dropdown-menu">
-                    @foreach (var sub in category.Subcategories)
+                    @foreach (var sub in category.Children)
                     {
                         <li class="dropdown-subitem">
                             <a class="dropdown-item"
                                asp-controller="Products"
-                               asp-action="Index"
+                               asp-action="FilterByCategory"
                                asp-route-category1="@category.Name"
-                               asp-route-category2="@sub.Name">
+                               asp-route-category2="@sub.Name"
+                               asp-route-category3="@null">
                                 @sub.Name
                             </a>
 
-                            @if (sub.SubSubcategories.Any())
+                            @if (sub.Children.Any())
                             {
                                 <ul class="dropdown-submenu">
-                                    @foreach (var subsub in sub.SubSubcategories)
+                                    @foreach (var subsub in sub.Children)
                                     {
                                         <li>
                                             <a class="dropdown-item"
                                                asp-controller="Products"
-                                               asp-action="Index"
+                                               asp-action="FilterByCategory"
                                                asp-route-category1="@category.Name"
                                                asp-route-category2="@sub.Name"
-                                               asp-route-category3="@subsub">
-                                                @subsub
+                                               asp-route-category3="@subsub.Name">
+                                                @subsub.Name
                                             </a>
                                         </li>
                                     }

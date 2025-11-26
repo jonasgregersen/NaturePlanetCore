@@ -14,13 +14,11 @@ namespace NaturePlanetSolutionCore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private OrderBLL _orderBLL;
-        private DatabaseContext _context;
 
-        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL,  DatabaseContext databaseContext)
+        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL)
         {
             _userManager = userManager;
             _orderBLL = orderBLL;
-            _context = databaseContext;
         }
         public IActionResult Index()
         {
@@ -37,6 +35,7 @@ namespace NaturePlanetSolutionCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(IFormCollection collection)
         {
+            // Get cart object and user
             var cart = HttpContext.Session.GetObject<Cart>("cart");
             var user = await _userManager.GetUserAsync(User);
 
@@ -60,11 +59,6 @@ namespace NaturePlanetSolutionCore.Controllers
             HttpContext.Session.Remove("cart");
             return View("Confirmation", cart);
 
-        }
-        [HttpGet]
-        public IActionResult Confirmation()
-        {
-            return View();
         }
     }
 }
