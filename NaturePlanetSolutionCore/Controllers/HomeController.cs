@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NaturePlanetSolutionCore.Models;
@@ -15,6 +16,23 @@ public class HomeController : Controller
         _logger = logger;
 
     }
+
+    public IActionResult SetLanguage(string culture)
+    {
+        var requestCulture = new RequestCulture(culture, culture);
+
+        Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(requestCulture),
+            new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1)
+            }
+        );
+
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
 
     public IActionResult Index()
     {
