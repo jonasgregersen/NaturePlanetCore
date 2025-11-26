@@ -20,13 +20,13 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var product in Model.GetProductWithoutDuplicates())
-            {
-                <tr>
+                @foreach (var product in Model.ProductSet())
+                {
+                    <tr>
                     <th>@product.Name</th>
-                    <th>@Model.GetProductQuantity(product)</th>
-                </tr>
-            }
+                    <th>@Model.GetSingleProductQuantity(product)</th>
+                    </tr>
+                }
             </tbody>
         </table>
 

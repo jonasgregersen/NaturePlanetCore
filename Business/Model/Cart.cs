@@ -23,14 +23,17 @@ public class Cart
         return RandomNumberGenerator.GetInt32(10000);
     }
 
-    public int GetProductQuantity(ProductDto product)
+    public int GetSingleProductQuantity(ProductDto product)
     {
         return Products.Where(p => p.Id == product.Id).Count();
     }
 
-    
-    public List<ProductDto> GetProductWithoutDuplicates()
+    public List<ProductDto> ProductSet()
     {
-        return Products.Distinct().GroupBy(p => p.Name).Select(g => g.First()).ToList();
+        var productSet = Products
+            .GroupBy(p => p.Name)
+            .Select(p => p.First())
+            .ToList();
+        return productSet;
     }
 }
