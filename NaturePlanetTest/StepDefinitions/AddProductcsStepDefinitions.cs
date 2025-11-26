@@ -4,6 +4,7 @@ using DataAccessLayer.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll;
 using System.Threading.Tasks;
+
 using Xunit;
 
 
@@ -15,7 +16,7 @@ namespace Test.StepDefinitions
         private readonly DatabaseContext _context;
         private readonly ProductRepository _repo;
 
-        private Product _product;
+        private DALProduct _product;
 
         public ProductCreateStepDefinitions()
         {
@@ -26,7 +27,7 @@ namespace Test.StepDefinitions
         [Given(@"an admin wants to create a product with name ""(.)"" and weight ""(.)""")]
         public void GivenAdminWantsToCreateProduct(string name, string weight)
         {
-            _product = new Product
+            _product = new DALProduct
             {
                 Name = name,
                 Weight = int.Parse(weight)
@@ -36,14 +37,14 @@ namespace Test.StepDefinitions
         [When("the admin submits the product creation")]
         public async Task WhenAdminSubmitsCreation()
         {
-            await _repo.AddProduct(_product);
+            _repo.CreateProduct(_product);
         }
 
         [Then(@"the product should exist in the database with name ""(.*)""")]
         public void ThenProductShouldExist(string name)
         {
             var p = _context.Products.FirstOrDefault(x => x.Name == name);
-            Assert.NotNull(p);
+            Assert.IsNotNull(p);
         }
     }
 }

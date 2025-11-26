@@ -2,6 +2,78 @@
 @model List<DataTransferLayer.Model.ProductDto>
 
 <div class="product-container">
+    @if (ViewBag.route != null)
+    {
+        <div class="route">
+            @if (ViewBag.route[1] == null)
+            {
+                <span>
+                    <a
+                        asp-controller="Products"
+                        asp-action="FilterByCategory"
+                        asp-route-category1="@ViewBag.route[0]"
+                        asp-route-category2="@null"
+                        asp-route-category3="@null">
+                        @ViewBag.route[0]
+                    </a>
+                </span>
+            }
+            else if (ViewBag.route[2] == null)
+            {
+                <span>
+                    <a
+                        asp-controller="Products"
+                        asp-action="FilterByCategory"
+                        asp-route-category1="@ViewBag.route[0]"
+                        asp-route-category2="@null"
+                        asp-route-category3="@null">
+                        @ViewBag.route[0]
+                    </a>
+                    > 
+                    <a
+                        asp-controller="Products"
+                        asp-action="FilterByCategory"
+                        asp-route-category1="@ViewBag.route[0]"
+                        asp-route-category2="@ViewBag.route[1]"
+                        asp-route-category3="@null">
+                        @ViewBag.route[1]
+                    </a>
+                </span>
+                
+            }
+            else
+            {
+                <span>
+                <a
+                    asp-controller="Products"
+                    asp-action="FilterByCategory"
+                    asp-route-category1="@ViewBag.route[0]"
+                    asp-route-category2="@null"
+                    asp-route-category3="@null">
+                    @ViewBag.route[0]
+                </a>
+                 > 
+                <a
+                    asp-controller="Products"
+                    asp-action="FilterByCategory"
+                    asp-route-category1="@ViewBag.route[0]"
+                    asp-route-category2="@ViewBag.route[1]"
+                    asp-route-category3="@null">
+                    @ViewBag.route[1]
+                </a>
+                 > 
+                <a
+                    asp-controller="Products"
+                    asp-action="FilterByCategory"
+                    asp-route-category1="@ViewBag.route[0]"
+                    asp-route-category2="@ViewBag.route[1]"
+                    asp-route-category3="@ViewBag.route[2]">
+                    @ViewBag.route[2]
+                </a>
+                </span>
+            }
+        </div>
+    }
     @Html.ValidationSummary()
     @foreach (var product in @Model)
     {

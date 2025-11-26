@@ -32,6 +32,8 @@ public class ProductsController : Controller
         string? category3 = null)
     {
         var queryProducts = await _productBLL.GetAllProductsByCategory(category1, category2, category3);
+        var route = new string[] {category1, category2, category3};
+        ViewBag.Route = route;
         return View("index", queryProducts);
     }
 
