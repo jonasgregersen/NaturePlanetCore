@@ -1,18 +1,19 @@
-﻿
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="content-container">
     <div class="content">
-        <h1 class="content-h">Nature Planet - Leading with Quality and Responsibility</h1>
-        <p class="content-p">Nature Planet is proud to be one of the world’s leading designers and distributors of high-quality toys, souvenirs and accessories for attractions and tourist destinations.
 
-            Responsibility is at the heart of everything we do. From the initial design to product development, we prioritize minimizing our environmental impact.
+        <h1 class="content-h">
+            @localizer["HeroTitle"]
+        </h1>
 
-            Our mantra—Reduce, Reuse, Recycle—guides us in creating innovative products without compromising on quality.
+        <p class="content-p">
+            @localizer["HomeIntro"]
+        </p>
 
-            From the very beginning, our mission has been clear: to make a difference by doing things differently and promoting positive change for the planet.</p>
-        <img src="Assets/Images/quality_and_sustainability.Jpg"/>
+        <img src="~/Assets/Images/quality_and_sustainability.jpg" alt="Quality and Sustainability" />
     </div>
 </div>
