@@ -36,6 +36,18 @@ public class ProductBLL: Component
 
     }
 
+    public async Task<ProductDto> GetProductById(string productId)
+    {
+        var products = await _productRepository.GetAllProducts();
+        var product = products.Find(p => p.ProductId == productId);
+        if (product != null)
+        {
+            return ProductMapper.Map(product);
+        }
+        return null;
+    }
+
+
     public async Task<List<ProductDto>> getAllProductsByCategory(string? category, string? category2 = null, string? category3 = null)
     {
         var products = await _productRepository.GetAllProducts();
@@ -45,7 +57,7 @@ public class ProductBLL: Component
         }
         return products
             .Where(p => 
-                category == null || p.Product_Category_1 == category &&
+                p.Product_Category_1 == category &&
                 category2 == null || p.Product_Category_2 == category2 &&
                 category3 == null || p.Product_Category_3 == category3
                 )
@@ -62,5 +74,82 @@ public class ProductBLL: Component
             throw new Exception("Ingen produkter fundet.");
         }
         return candidates.Select(p => ProductMapper.Map(p)).ToList();
+    }
+
+    public async Task CreateProduct(ProductDto product)
+    {
+        
+        if (product.Name == null)
+        {
+            throw new Exception("Produkt navn er ikke angivet.");
+        }
+        
+        if (product.EAN == null)
+        {
+            throw new Exception("EAN er ikke angivet.");
+        }
+        
+        if (product.ErpSource == null)
+        {
+            throw new Exception("ERP source er ikke angivet.");
+        }
+        
+        if (product.Product_Category_1 == null)
+        {
+            throw new Exception("1. kategorier er ikke angivet.");
+        }
+        
+        if (product.Product_Category_2 == null)
+        {
+            throw new Exception("2. kategorier er ikke angivet.");
+        }
+        
+        if (product.Product_Category_3 == null)
+        {
+            throw new Exception("3. kategorier er ikke angivet.");
+        }
+        
+        if (product.Weight == null)
+        {
+            throw new Exception("Vægt er ikke angivet.");
+        }
+        
+        if (product.Segment == null)
+        {
+            throw new Exception("Segment er ikke angivet.");
+        }
+
+        if (product.Product_Category_1 == null)
+        {
+            throw new Exception("1. kategorier er ikke angivet.");
+        }
+
+        if (product.Product_Category_2 == null)
+        {
+            throw new Exception("2. kategorier er ikke angivet.");
+        }
+
+        if (product.Product_Category_3 == null)
+        {
+            throw new Exception("3. kategorier er ikke angivet.");
+        }
+        
+        var products = await _productRepository.GetAllProducts();
+        if (products.Any(p => p.ProductId.ToLower() == product.Id.ToLower()))
+        {
+            throw new Exception("Produktet med id findes allerede.");
+        }
+
+        if (products.Any(p => p.Name.ToLower() == product.Name.ToLower()))
+        {
+            throw new Exception("Der findes et produkt med samme navn.");
+        }
+
+        if (products.Any(p => p.EAN.ToLower() == product.EAN.ToLower()))
+        {
+            throw new Exception("Der findes et produkt med denne EAN");
+        }
+        
+        _productRepository.CreateProduct(ProductMapper.Map(product));
     }
 }

@@ -19,13 +19,16 @@ namespace NaturePlanetSolutionCore.Controllers
 
         private readonly OrderBLL _orderBLL;
         
+        private readonly ProductBLL _productBLL;
+        
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context, OrderBLL orderBLL)
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context, OrderBLL orderBLL, ProductBLL productBLL)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _context = context;
             _orderBLL = orderBLL;
+            _productBLL = productBLL;
         }
 
         public IActionResult Index()
@@ -251,6 +254,21 @@ namespace NaturePlanetSolutionCore.Controllers
                 await _userManager.AddToRoleAsync(user, role);
 
             return RedirectToAction("UserList");
+        }
+
+        public async Task<IActionResult> RemoveProduct(string productName)
+        {
+            if (string.IsNullOrEmpty(productName))
+            {
+                throw new Exception("Der skete en fejl med at fjerne produktet.");
+            }
+
+            var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+            var product = await _productBLL.GetProductByName(productName);
+            
+            cart.RemoveProduct(product);
+            HttpContext.Session.SetObject("cart", cart);
+            return View("Cart", cart);
         }
     }
 }

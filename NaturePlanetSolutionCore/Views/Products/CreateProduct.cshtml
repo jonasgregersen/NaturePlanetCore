@@ -1,0 +1,93 @@
+@model DataTransferLayer.Model.ProductDto
+
+@using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post))
+{
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-group">
+    <div class="form-group">
+        @Html.LabelFor(m => m.Id)
+        @Html.EditorFor(m => m.Id)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EAN)
+        @Html.EditorFor(m => m.EAN)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ErpSource)
+        @Html.EditorFor(m => m.ErpSource)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Active)
+        @Html.EditorFor(m => m.Active)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.QuantityInBag)
+        @Html.EditorFor(m => m.QuantityInBag)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Weight)
+        @Html.EditorFor(m => m.Weight)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Segment)
+        @Html.EditorFor(m => m.Segment)
+    </div>
+
+    @{
+        ViewData["Categories"] = ViewBag.Categories1;
+    }
+    @Html.EditorFor(m => m.Product_Category_1, "CategoryDropdown")
+
+    @{
+        ViewData["Categories"] = ViewBag.Categories2;
+    }
+    @Html.EditorFor(m => m.Product_Category_2, "CategoryDropdown")
+
+    @{
+        ViewData["Categories"] = ViewBag.Categories3;
+    }
+    @Html.EditorFor(m => m.Product_Category_3, "CategoryDropdown")
+</div>
+
+<button type="submit" class="btn btn-primary">Opret produkt</button>
+}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cat1 = document.getElementById("Product_Category_1");
+    const cat2 = document.getElementById("Product_Category_2");
+    const cat3 = document.getElementById("Product_Category_3");
+
+    function updateCategories() {
+        // Hvis kategori 1 mangler → disable kat2 + kat3
+        if (!cat1.value) {
+            cat2.value = "";
+            cat3.value = "";
+            cat2.disabled = true;
+            cat3.disabled = true;
+            return;
+        }
+
+        cat2.disabled = false;
+
+        // Hvis kategori 2 mangler → disable kat3
+        if (!cat2.value) {
+            cat3.value = "";
+            cat3.disabled = true;
+            return;
+        }
+
+        cat3.disabled = false;
+    }
+
+    cat1.addEventListener("change", updateCategories);
+    cat2.addEventListener("change", updateCategories);
+
+    updateCategories(); // initial check
+});
+</script>

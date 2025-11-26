@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=NaturePlanetDB;User Id=sa;Password=reallyStrongPwd123;MultipleActiveResultSets=true;TrustServerCertificate=true"));
+    options.UseSqlServer("Server=tcp:natureplanetprojekt.database.windows.net,1433;Initial Catalog=NaturePlanetDB;Persist Security Info=False;User ID=natureplanetadmin;Password=NaturePlanet123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
 
 
@@ -115,6 +115,11 @@ app.MapControllerRoute(
     name: "productSearch",
     pattern: "Products/Search",
     defaults: new { controller = "Products", action = "Search" });
+
+app.MapControllerRoute(
+    name: "createProduct",
+    pattern: "Products/CreateProduct",
+    defaults: new { controller = "Products", action = "CreateProduct" });
 
 app.MapControllerRoute(
     name: "productDetails",

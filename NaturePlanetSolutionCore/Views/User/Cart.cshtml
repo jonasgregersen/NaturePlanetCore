@@ -7,7 +7,7 @@
     {
         <div class="cart-item-row">
         <p>@product.Name</p>
-        <a asp-controller="Product" asp-action="RemoveProduct">Remove</a>
+        <a asp-controller="User" asp-action="RemoveProduct" asp-route-productName="@product.Name">Remove</a>
         </div>
     }
 
