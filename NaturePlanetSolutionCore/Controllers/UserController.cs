@@ -1,4 +1,4 @@
-﻿using Business.Model;
+using Business.Model;
 using DataAccessLayer.Context;
 using DataAccessLayer.Model;
 using DataAccessLayer.Repositories;
@@ -157,8 +157,9 @@ namespace NaturePlanetSolutionCore.Controllers
             {
                 cart.Products.Remove(productToRemove);
                 HttpContext.Session.SetObject("cart", cart);
+                return Ok(new { success = true });
             }
-            return RedirectToAction("Cart");
+            return BadRequest(new { success = false });
         }
 
         [HttpGet]

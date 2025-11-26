@@ -20,7 +20,7 @@ public class CategoryService
     private List<ProductCategory> BuildHierarchy(List<Product> products)
     {
         var level1Groups = products
-            .Where(p => p.Product_Category_1 != null)
+            .Where(p => p.Product_Category_1 != null && !string.IsNullOrWhiteSpace(p.Product_Category_1))
             .GroupBy(p => p.Product_Category_1)
             .Select(p => new ProductCategory() {Name = p.Key})
             .ToList();

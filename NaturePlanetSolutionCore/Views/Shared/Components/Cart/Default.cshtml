@@ -9,15 +9,38 @@
                 d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
         </svg>
     </div>
-    <div class="cart-dropdown-content">
-        @foreach (var product in Model.Products)
+    <div class="cart-dropdown-content" id="cartContent">
+        @if (Model.Products.Any())
         {
-            <p class="cart-item">@product.Name</p>
+            <div class="cart-content-items">
+                @foreach (var product in Model.ProductSet())
+                {
+                    <div class="cart-item-row">
+                        <div class="cart-item-content">
+                            <p class="cart-item">@product.Name</p>
+                            <p class="cart-item-quantity">Quantity: @Model.GetSingleProductQuantity(product)</p>
+                        </div>
+                        <div class="delete-button">
+                            <form asp-action="RemoveFromCart" asp-controller="User" method="post" class="remove-item-form">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="remove-button" title="Remove item">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="button-container">
+                <a asp-controller="User" asp-action="Cart" class="checkout-button">Checkout</a>
+            </div>
         }
-        <div class="button-container">
-            <button class="checkout-button">Checkout</button>
-            <a asp-controller="User" asp-action="Cart" class="viewcart-button">View Cart</a>
-        </div>
+        else
+        {
+            <p class="cart-item">Your cart is empty</p>
+        }
     </div>
 </div>
 
