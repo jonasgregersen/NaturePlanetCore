@@ -1,3 +1,4 @@
+using Business.Interfaces;
 using Business.Services;
 using DataAccessLayer.Context;
 using DataAccessLayer.Mappers;
@@ -6,15 +7,17 @@ using DataAccessLayer.Repositories;
 namespace Business.Model;
 using DataTransferLayer.Model;
 
-public class ProductBLL: Component
+public class ProductBLL: Component, IProductService
 {
     private readonly ProductRepository _productRepository;
     private readonly CacheService _cache;
+    private readonly IRecommendationService _recommendationService;
 
-    public ProductBLL(ProductRepository productRepository, CacheService cache)
+    public ProductBLL(ProductRepository productRepository, CacheService cache, IRecommendationService recommendationService)
     {
         _productRepository = productRepository;
         _cache = cache;
+        _recommendationService = recommendationService;
     }
     public override double getPrice()
     {
@@ -66,6 +69,21 @@ public class ProductBLL: Component
                 (category3 == null || p.Product_Category_3 == category3)
                 )
             .Select(p => ProductMapper.Map(p)).ToList();
+    }
+
+    public async Task<List<ProductDto>> GetRecommendedProductsAsync(string productId, int limit = 5)
+    {
+        return await _recommendationService.GetSimilarProductsByCategoryAsync(productId, limit);
+    }
+    
+    public async Task<List<ProductDto>> GetUserRecommendationsAsync(string userId, int limit = 5)
+    {
+        return await _recommendationService.GetRecommendedProductsForUserAsync(userId, limit);
+    }
+
+    public async Task<List<ProductDto>> GetPopularProductsAsync(int limit = 5)
+    {
+        return await _recommendationService.GetPopularProductsAsync(limit);
     }
 
     public async Task<List<ProductDto>> SearchProductsAsync(string query)

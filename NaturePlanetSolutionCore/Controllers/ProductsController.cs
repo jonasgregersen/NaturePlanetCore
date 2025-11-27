@@ -192,5 +192,12 @@ public class ProductsController : Controller
         ViewBag.Categories2 = categories2;
         ViewBag.Categories3 = categories3;
     }
+    [HttpGet("Products/Recommendations/{productId}")]
+    public async Task<IActionResult> GetProductRecommendations(string productId)
+    {
+        var recommendations = await _productBLL.GetRecommendedProductsAsync(productId);
+        return View("Recommendations", recommendations);
+    }
+    
     
 }

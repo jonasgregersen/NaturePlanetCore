@@ -1,3 +1,4 @@
+using Business.Interfaces;
 using Business.Model;
 using Business.Services;
 using DataAccessLayer.Context;
@@ -55,6 +56,9 @@ builder.Services.AddScoped<OrderBLL>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CacheService>();
 builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<IProductCatalogService, ProductCatalogService>();
+builder.Services.AddScoped<IRecommendationService, RecommendationService>();
+builder.Services.AddScoped<IProductService, ProductBLL>();
 
 builder.Services.AddDistributedMemoryCache();
 
