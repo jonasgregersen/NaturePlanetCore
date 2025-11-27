@@ -5,7 +5,7 @@ using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using Business.Services;
 using NaturePlanetSolutionCore.Models.ViewModels;
 
 namespace NaturePlanetSolutionCore.Controllers
@@ -13,23 +13,23 @@ namespace NaturePlanetSolutionCore.Controllers
     public class UserController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-
         private readonly UserManager<ApplicationUser> _userManager;
-
-        private readonly DatabaseContext _context;
-
         private readonly OrderBLL _orderBLL;
-        
         private readonly ProductBLL _productBLL;
+        private readonly CartService _cartService;
+        private readonly UserRepository _userRepository;
+        private readonly ILogger<UserController> _logger;
         
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, DatabaseContext context, OrderBLL orderBLL, ProductBLL productBLL)
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, UserRepository repository, OrderBLL orderBLL, ProductBLL productBLL, CartService cartService, ILogger<UserController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _context = context;
             _orderBLL = orderBLL;
             _productBLL = productBLL;
+            _cartService = cartService;
+            _userRepository = repository;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -38,9 +38,9 @@ namespace NaturePlanetSolutionCore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var user = _context.Users.Find(id);
+            var user = await _userRepository.GetUserById(id);
 
             if (user == null)
             {
@@ -83,12 +83,14 @@ namespace NaturePlanetSolutionCore.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "User");
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation("User registered: {Email}", viewModel.Email);
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in createUser.Errors)
             {
                 Console.WriteLine(error);
+                _logger.LogError("Error registering user: {ErrorMessage}", error.Description);
                 ModelState.AddModelError("", error.Description);
             }
 
@@ -127,6 +129,7 @@ namespace NaturePlanetSolutionCore.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("User logged in: {Email}", viewModel.Email);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -138,12 +141,14 @@ namespace NaturePlanetSolutionCore.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out: {Email}", _userManager.GetUserId(User));
             return RedirectToAction("Login", "User");
         }
 
         public IActionResult Cart()
         {
-            var order = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+            var order = _cartService.GetCart();
+            _logger.LogInformation("User cart requested: {UserId}", _userManager.GetUserId(User));
             return View("Cart", order);
         }
 
@@ -151,12 +156,13 @@ namespace NaturePlanetSolutionCore.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveFromCart(string productId)
         {
-            var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+            var cart = _cartService.GetCart();
             var productToRemove = cart.Products.FirstOrDefault(p => p.Id == productId);
             if (productToRemove != null)
             {
                 cart.Products.Remove(productToRemove);
-                HttpContext.Session.SetObject("cart", cart);
+                _cartService.SaveCart(cart);
+                _logger.LogInformation("Product removed from cart: {ProductId}", productId);
                 return Ok(new { success = true });
             }
             return BadRequest(new { success = false });
@@ -175,6 +181,7 @@ namespace NaturePlanetSolutionCore.Controllers
             }
 
             var orders = _orderBLL.GetUserOrders(user.Id);
+            _logger.LogInformation("User orders requested: {UserId}", user.Id);
             return View(orders);
         }
 
@@ -191,6 +198,7 @@ namespace NaturePlanetSolutionCore.Controllers
                 Email = user.Email,
                 Password = user.PasswordHash
             };
+            _logger.LogInformation("User profile requested: {UserId}", user.Id);
             return View("ProfilePage", viewModel);
         }
 
@@ -220,6 +228,7 @@ namespace NaturePlanetSolutionCore.Controllers
             if (result.Succeeded)
             {
                 TempData["StatusMessage"] = "Your password has been changed.";
+                _logger.LogInformation("User password changed: {UserId}", user.Id);
                 return RedirectToAction("Profile");
             }
 
@@ -234,6 +243,7 @@ namespace NaturePlanetSolutionCore.Controllers
         public async Task<IActionResult> UserList()
         {
             var users = _userManager.Users.ToList();
+            _logger.LogInformation("User list requested");
             return View(users);
         }
 
@@ -247,7 +257,7 @@ namespace NaturePlanetSolutionCore.Controllers
 
             if (!await _userManager.IsInRoleAsync(user, "Admin"))
                 await _userManager.AddToRoleAsync(user, "Admin");
-
+            _logger.LogInformation("User promoted to admin: {UserId}", user.Id);
             return RedirectToAction("UserList");
         }
 
@@ -268,7 +278,7 @@ namespace NaturePlanetSolutionCore.Controllers
             // Add to selected role
             if (!string.IsNullOrEmpty(role))
                 await _userManager.AddToRoleAsync(user, role);
-
+            _logger.LogInformation("User role set: {UserId}, {Role}", user.Id, role);
             return RedirectToAction("UserList");
         }
 
@@ -279,11 +289,12 @@ namespace NaturePlanetSolutionCore.Controllers
                 throw new Exception("Der skete en fejl med at fjerne produktet.");
             }
 
-            var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+            var cart = _cartService.GetCart();
             var product = await _productBLL.GetProductByName(productName);
             
             cart.RemoveProduct(product);
-            HttpContext.Session.SetObject("cart", cart);
+            _cartService.SaveCart(cart);
+            _logger.LogInformation("Product removed from cart: {ProductName}", productName);
             return View("Cart", cart);
         }
     }

@@ -1,10 +1,29 @@
 @model NaturePlanetSolutionCore.Models.ViewModels.OrderViewModel
-@using (Html.BeginForm("Checkout", "Order", FormMethod.Post))
-{
-    <div asp-validation-summary="All">
-    <input asp-for="Email" class="name-order" name="name-order" type="text" placeholder="Fulde navn"/>
-    <span asp-validation-for="Email"></span>
-    <input class="email-order" name="email-order" type="text" placeholder="Email"/>
-    <button type="submit" class="submit-button" name="submit-button">Checkout</button>
-    </div>
-}
+<div class="checkout-container">
+    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "checkout-form" }))
+    {
+        <div asp-validation-summary="All" class="validation-summary"></div>
+        
+        <div class="form-group">
+            <input asp-for="Email" 
+                   class="form-input" 
+                   name="name-order" 
+                   type="text" 
+                   placeholder="Fulde navn" />
+            <span asp-validation-for="Email" class="validation-message"></span>
+        </div>
+
+        <div class="form-group">
+            <input class="form-input email-order" 
+                   name="email-order" 
+                   type="text" 
+                   placeholder="Email" />
+        </div>
+
+        <button type="submit" 
+                class="submit-button" 
+                name="submit-button">
+            Checkout
+        </button>
+    }
+</div>

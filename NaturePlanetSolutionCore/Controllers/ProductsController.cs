@@ -1,10 +1,8 @@
 using Business.Model;
 using Business.Services;
-using DataAccessLayer.Context;
-using DataAccessLayer.Repositories;
 using DataTransferLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 
 namespace NaturePlanetSolutionCore.Controllers;
@@ -12,18 +10,20 @@ namespace NaturePlanetSolutionCore.Controllers;
 public class ProductsController : Controller
 {
     private ProductBLL _productBLL;
-    private IMemoryCache _cache;
+    private CartService _cartService;
+    private ILogger<ProductsController> _logger;
 
-    public ProductsController(ProductBLL productBLL, IMemoryCache cache)
+    public ProductsController(ProductBLL productBLL, CartService cartService, ILogger<ProductsController> logger)
     {
         _productBLL = productBLL;
-        _cache = cache;
+        _cartService = cartService;
+        _logger = logger;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var products = await _productBLL.getAllProducts();
+        var products = await _productBLL.getAllProductsAsync();
         return View(products);
     }
 
@@ -31,9 +31,10 @@ public class ProductsController : Controller
     public async Task<IActionResult> FilterByCategory(string? category1 = null, string? category2 = null,
         string? category3 = null)
     {
-        var queryProducts = await _productBLL.GetAllProductsByCategory(category1, category2, category3);
+        var queryProducts = await _productBLL.GetAllProductsByCategoryAsync(category1, category2, category3);
         var route = new string[] {category1, category2, category3};
         ViewBag.Route = route;
+        _logger.LogInformation("Products filtered by category: {Category1}, {Category2}, {Category3}", category1, category2, category3);
         return View("index", queryProducts);
     }
 
@@ -41,7 +42,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> Details(string productName)
     {
         var product = await _productBLL.GetProductByName(productName);
-        Console.WriteLine(product.Name);
+        _logger.LogInformation("Product details requested: {ProductName}", productName);
         return View("Details", product);
     }
 
@@ -55,12 +56,14 @@ public class ProductsController : Controller
         }
         try
         {
-            var products = await _productBLL.SearchProducts(query);
+            var products = await _productBLL.SearchProductsAsync(query);
+            _logger.LogInformation("Products searched for: {Query}", query);
             return View("index", products);
         }
         catch (Exception e)
         {
             ModelState.AddModelError("", e.Message);
+            _logger.LogError("Error searching products: {ErrorMessage}", e.Message);
             return View("Index", new List<ProductDto>());
         }
     }
@@ -72,15 +75,18 @@ public class ProductsController : Controller
             throw new Exception("Der skete en fejl med at tilføje produktet.");
         }
 
-        var cart = HttpContext.Session.GetObject<Cart>("cart") ?? new Cart();
+        var cart = _cartService.GetCart();
         var product = await _productBLL.GetProductByName(productName);
         
         cart.AddProduct(product);
-        HttpContext.Session.SetObject("cart", cart);
+        _cartService.SaveCart(cart);
+        _logger.LogInformation("Product added to cart: {ProductName}", productName);
         return View("Details", product);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet("Products/CreateProduct")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateProduct()
     {
         FillViewBagCategories();
@@ -153,6 +159,7 @@ public class ProductsController : Controller
         try
         {
             await _productBLL.CreateProduct(productDto);
+            _logger.LogInformation("Product created: {ProductName}", productDto.Name);
         }
         catch (Exception e)
         {
@@ -160,13 +167,12 @@ public class ProductsController : Controller
             ModelState.AddModelError("", e.Message);
             return View(productDto);
         }
-        _cache.Remove("CategoryTree");
         return RedirectToAction("Index");
     }
 
     private async Task FillViewBagCategories()
     {
-        var products = await _productBLL.getAllProducts();
+        var products = await _productBLL.getAllProductsAsync();
         var categories1 = products
             .Where(c => c.Product_Category_1 != null || c.Product_Category_1 != "")
             .Select(c => c.Product_Category_1)

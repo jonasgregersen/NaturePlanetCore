@@ -46,12 +46,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.AddSupportedUICultures(supportedLanguages);
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductBLL>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<OrderBLL>();
-builder.Services.AddScoped<CategoryService>();
-
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<CacheService>();
+builder.Services.AddScoped<CartService>();
 
 builder.Services.AddDistributedMemoryCache();
 

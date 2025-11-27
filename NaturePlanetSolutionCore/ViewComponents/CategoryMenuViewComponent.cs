@@ -7,9 +7,9 @@ namespace NaturePlanetSolutionCore.ViewComponents;
 
 public class CategoryMenuViewComponent : ViewComponent
 {
-    private readonly CategoryService _service;
+    private readonly CacheService _service;
     
-    public CategoryMenuViewComponent(CategoryService service)
+    public CategoryMenuViewComponent(CacheService service)
     {
         _service = service;
     }

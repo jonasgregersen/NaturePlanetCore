@@ -3,15 +3,16 @@ using DataAccessLayer.Repositories;
 using DataTransferLayer.Model;
 using Microsoft.Extensions.Caching.Memory;
 using Product = DataAccessLayer.Model.DALProduct;
+using Business.Constants;
 
 namespace Business.Services;
 
-public class CategoryService
+public class CacheService
 {
     private readonly IMemoryCache _cache;
     private readonly ProductRepository _productRepository;
     
-    public CategoryService(IMemoryCache cache, ProductRepository productRepository)
+    public CacheService(IMemoryCache cache, ProductRepository productRepository)
     {
         _cache = cache;
         _productRepository = productRepository;
@@ -52,7 +53,7 @@ public class CategoryService
 
     public async Task<List<ProductCategory>?> GetCategoryTreeAsync()
     {
-        return await _cache.GetOrCreateAsync("CategoryTree", async (entry) =>
+        return await _cache.GetOrCreateAsync(CacheKeys.CategoryTreeKey, async (entry) =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
 
@@ -60,6 +61,28 @@ public class CategoryService
 
             return BuildHierarchy(products); 
         });
+    }
+    
+    public async Task<List<Product>?> GetProductsAsync()
+    {
+        return await _cache.GetOrCreateAsync(CacheKeys.ProductsKey, async (entry) =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+
+            var products = await _productRepository.GetAllProducts();
+
+            return products;
+        });
+    }
+    
+    public void InvalidateCategoryTree()
+    {
+        _cache.Remove(CacheKeys.CategoryTreeKey);
+    }
+    
+    public void InvalidateProducts()
+    {
+        _cache.Remove(CacheKeys.ProductsKey);
     }
 
 }

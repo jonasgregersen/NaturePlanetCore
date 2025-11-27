@@ -1,3 +1,4 @@
+using Business.Services;
 using DataAccessLayer.Context;
 using DataAccessLayer.Mappers;
 using DataAccessLayer.Repositories;
@@ -8,19 +9,21 @@ using DataTransferLayer.Model;
 public class ProductBLL: Component
 {
     private readonly ProductRepository _productRepository;
+    private readonly CacheService _cache;
 
-    public ProductBLL(ProductRepository productRepository)
+    public ProductBLL(ProductRepository productRepository, CacheService cache)
     {
         _productRepository = productRepository;
+        _cache = cache;
     }
     public override double getPrice()
     {
         return 0;
     }
 
-    public async Task<List<ProductDto>> getAllProducts()
+    public async Task<List<ProductDto>> getAllProductsAsync()
     {
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         if (!products.Any())
         {
             throw new Exception("Ingen produkter fundet.");
@@ -31,14 +34,14 @@ public class ProductBLL: Component
 
     public async Task<ProductDto> GetProductByName(string productName)
     {
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         return  ProductMapper.Map(products.FirstOrDefault(p => p.Name == productName));
 
     }
 
     public async Task<ProductDto> GetProductById(string productId)
     {
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         var product = products.Find(p => p.ProductId == productId);
         if (product != null)
         {
@@ -48,10 +51,10 @@ public class ProductBLL: Component
     }
 
 
-    public async Task<List<ProductDto>> GetAllProductsByCategory(string? category, string? category2 = null,
+    public async Task<List<ProductDto>> GetAllProductsByCategoryAsync(string? category, string? category2 = null,
         string? category3 = null)
     {
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         if (!products.Any())
         {
             throw new Exception("Ingen produkter fundet.");
@@ -65,9 +68,9 @@ public class ProductBLL: Component
             .Select(p => ProductMapper.Map(p)).ToList();
     }
 
-    public async Task<List<ProductDto>> SearchProducts(string query)
+    public async Task<List<ProductDto>> SearchProductsAsync(string query)
     {
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         var formattedQuery = query.ToLower().Trim();
         var candidates = products.Where(p => p.Name.ToLower().Contains(formattedQuery)).ToList();
         if (!candidates.Any())
@@ -135,7 +138,7 @@ public class ProductBLL: Component
             throw new Exception("3. kategorier er ikke angivet.");
         }
         
-        var products = await _productRepository.GetAllProducts();
+        var products = await _cache.GetProductsAsync();
         if (products.Any(p => p.ProductId.ToLower() == product.Id.ToLower()))
         {
             throw new Exception("Produktet med id findes allerede.");
@@ -150,7 +153,8 @@ public class ProductBLL: Component
         {
             throw new Exception("Der findes et produkt med denne EAN");
         }
-        
+        _cache.InvalidateProducts();
+        _cache.InvalidateCategoryTree();
         _productRepository.CreateProduct(ProductMapper.Map(product));
     }
 }

@@ -1,11 +1,8 @@
 ﻿using Business.Model;
-using DataAccessLayer.Context;
-using DataAccessLayer.Mappers;
+using Business.Services;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DALOrder = DataAccessLayer.Model.Order;
 using DTOOrder = DataTransferLayer.Model.OrderDto;
 
 namespace NaturePlanetSolutionCore.Controllers
@@ -14,11 +11,15 @@ namespace NaturePlanetSolutionCore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private OrderBLL _orderBLL;
+        private CartService _cartService;
+        private ILogger<OrderController> _logger;
 
-        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL)
+        public OrderController(UserManager<ApplicationUser> userManager, OrderBLL orderBLL, CartService cartService, ILogger<OrderController> logger)
         {
             _userManager = userManager;
             _orderBLL = orderBLL;
+            _cartService = cartService;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -29,6 +30,7 @@ namespace NaturePlanetSolutionCore.Controllers
         [HttpGet]
         public IActionResult Checkout()
         {
+            _logger.LogInformation("User checkout requested: {UserId}", _userManager.GetUserId(User));
             return View();
         }
 
@@ -36,7 +38,7 @@ namespace NaturePlanetSolutionCore.Controllers
         public async Task<IActionResult> Checkout(IFormCollection collection)
         {
             // Get cart object and user
-            var cart = HttpContext.Session.GetObject<Cart>("cart");
+            var cart = _cartService.GetCart();
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
@@ -56,7 +58,8 @@ namespace NaturePlanetSolutionCore.Controllers
     
             // Add the order
             _orderBLL.CreateOrder(dtoOrder);
-            HttpContext.Session.Remove("cart");
+            _logger.LogInformation("Order created successfully");
+            _cartService.ClearCart();
             return View("Confirmation", cart);
 
         }

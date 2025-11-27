@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using System.Text.Json;
+
+namespace Business.Extensions;
 
 public static class SessionExtensions
 {
