@@ -37,7 +37,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        Task.Run(() => _productBLL.getAllProductsAsync()); // Indlæser products i baggrunden
+        await _productBLL.getAllProductsAsync(); // Indlæser products i baggrunden
         return View();
     }
 
