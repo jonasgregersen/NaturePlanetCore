@@ -36,7 +36,7 @@ namespace Business.Model
         }
         
         
-        public List<OrderDto> GetUserOrders(string id)
+        public async Task<List<OrderDto>> GetUserOrders(string id)
         {
             return _orderRepository.GetAllOrdersForUser(id)
                 .Select(o => OrderMapper.MapToDto(o))
@@ -57,6 +57,13 @@ namespace Business.Model
             }
 
             _orderRepository.AddOrder(dalOrder);
+        }
+        
+        public async Task<List<OrderDto>> GetAllOrders()
+        {
+            return _orderRepository.GetAllOrders()
+                .Select(o => OrderMapper.MapToDto(o))
+                .ToList();
         }
 
     }
