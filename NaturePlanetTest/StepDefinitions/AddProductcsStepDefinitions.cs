@@ -24,7 +24,7 @@ namespace Test.StepDefinitions
             _repo = new ProductRepository(_context);
         }
 
-        [Given(@"an admin wants to create a product with name ""(.)"" and weight ""(.)""")]
+        [Given(@"an admin wants to create a product with name ""(.*)"" and weight ""(.*)""")]
         public void GivenAdminWantsToCreateProduct(string name, string weight)
         {
             _product = new DALProduct
@@ -34,10 +34,10 @@ namespace Test.StepDefinitions
             };
         }
 
-        [When("the admin submits the product creation")]
+        [When("admin presses the create product button")]
         public async Task WhenAdminSubmitsCreation()
         {
-            _repo.CreateProduct(_product);
+           await _repo.CreateProduct(_product);
         }
 
         [Then(@"the product should exist in the database with name ""(.*)""")]

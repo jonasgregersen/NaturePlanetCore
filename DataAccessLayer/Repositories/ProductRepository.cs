@@ -13,10 +13,10 @@ public class ProductRepository
         _context = context;
     }
 
-    public void CreateProduct(DALProduct product)
+    public async Task CreateProduct(DALProduct product)
     {
         _context.Products.Add(product);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     public DALProduct GetProduct(string id)

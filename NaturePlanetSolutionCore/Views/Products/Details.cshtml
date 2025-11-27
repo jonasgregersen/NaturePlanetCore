@@ -1,6 +1,6 @@
 @model DataTransferLayer.Model.ProductDto
 
-
+<div class="product-page">
 <a class="product-category-1"
    asp-controller="Products"
    asp-action="FilterByCategory"
@@ -26,8 +26,12 @@
    @Model.Product_Category_3
 </a> 
 <h1 class="product-name">@Model.Name</h1>
-
-<p class="product-ean">@Model.EAN</p>
+<div class="product-details">
+    <h5 class="product-header">Details</h5>
+    <p class="product-ean">EAN: @Model.EAN</p>
+    <p class="product-quantity-in-bag">Quantity In Bag: @Model.QuantityInBag</p>
+    <p class="product-weight">Weight: @Model.Weight</p>
+</div>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -41,3 +45,4 @@
       </button>
    }
 }
+</div>
