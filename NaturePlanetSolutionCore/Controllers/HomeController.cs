@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Business.Model;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using NaturePlanetSolutionCore.Models;
@@ -8,12 +9,13 @@ namespace NaturePlanetSolutionCore.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ProductBLL _productBLL;
    
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ProductBLL productBLL)
     {
         _logger = logger;
-
+        _productBLL = productBLL;
     }
 
     public IActionResult SetLanguage(string culture)
@@ -33,9 +35,9 @@ public class HomeController : Controller
     }
 
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-       
+        Task.Run(() => _productBLL.getAllProductsAsync()); // Indlæser products i baggrunden
         return View();
     }
 

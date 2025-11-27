@@ -27,8 +27,8 @@ public class ProductsController : Controller
         return View(products);
     }
 
-    [HttpGet("Products/{category1?}/{category2?}/{category3?}")]
-    public async Task<IActionResult> FilterByCategory(string? category1 = null, string? category2 = null,
+    [HttpGet("Products/{category1}/{category2?}/{category3?}")]
+    public async Task<IActionResult> FilterByCategory(string category1, string? category2 = null,
         string? category3 = null)
     {
         var queryProducts = await _productBLL.GetAllProductsByCategoryAsync(category1, category2, category3);
@@ -57,6 +57,7 @@ public class ProductsController : Controller
         try
         {
             var products = await _productBLL.SearchProductsAsync(query);
+            ViewBag.Query = query;
             _logger.LogInformation("Products searched for: {Query}", query);
             return View("index", products);
         }
@@ -86,7 +87,6 @@ public class ProductsController : Controller
 
     [Authorize(Roles = "Admin")]
     [HttpGet("Products/CreateProduct")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateProduct()
     {
         FillViewBagCategories();
@@ -94,6 +94,7 @@ public class ProductsController : Controller
     }
     
     [HttpPost("Products/CreateProduct")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateProduct(ProductDto productDto)
     {
         if (productDto.Id == null)

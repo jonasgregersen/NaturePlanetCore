@@ -24,10 +24,19 @@
         <div class="search-container">
             @using (Html.BeginForm("Search", "Products", FormMethod.Get))
             {
-                <input class="search-box" name="query" type="text" placeholder="Søg efter produkter" />
+                if (ViewBag.Query == null)
+                {
+                    <input class="search-box" name="query" type="text" placeholder="Søg efter produkter"/>
+                }
+                else
+                {
+                    <input class="search-box" name="query" type="text" placeholder="Søg efter produkter" value="@ViewBag.Query"/>
+                }
+
                 <button class="search-button" type="submit">
                     <i class="search-icon">&#128269;</i>
                 </button>
+                
             }
 
         </div>
