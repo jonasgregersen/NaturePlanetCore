@@ -9,6 +9,7 @@
             <p>@product.Name</p>
             <form asp-action="RemoveFromCart" asp-controller="User" method="post" style="display:inline;">
                 <input type="hidden" name="productId" value="@product.Id" />
+                
                 @Html.AntiForgeryToken()
                 <button type="submit" class="remove-button">Remove</button>
             </form>

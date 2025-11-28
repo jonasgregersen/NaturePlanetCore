@@ -56,14 +56,12 @@ namespace DataAccessLayer.Context
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // ORDERPRODUCTS JOIN TABLE – vigtig!
             modelBuilder.Entity<DALOrder>()
                 .HasMany(o => o.Products)
                 .WithMany(p => p.Orders)
                 .UsingEntity<Dictionary<string, object>>(
                     "OrderProducts",
 
-                    // FK til PRODUCT
                     j => j
                         .HasOne<DALProduct>()
                         .WithMany()
@@ -71,7 +69,6 @@ namespace DataAccessLayer.Context
                         .HasPrincipalKey(p => p.ProductId)
                         .OnDelete(DeleteBehavior.Cascade),
 
-                    // FK til ORDER
                     j => j
                         .HasOne<DALOrder>()
                         .WithMany()
@@ -79,15 +76,12 @@ namespace DataAccessLayer.Context
                         .HasPrincipalKey(o => o.OrderId)
                         .OnDelete(DeleteBehavior.Cascade),
 
-                    // Konfiguration af join-tabellen
                     j =>
                     {
-                        // PK (kombineret)
                         j.HasKey("OrderId", "ProductId");
 
                         j.ToTable("OrderProducts");
 
-                        // Sikrer korrekt datatype i SQL
                         j.Property<string>("ProductId")
                             .HasColumnType("varchar(50)");
 

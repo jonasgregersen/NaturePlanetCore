@@ -269,13 +269,11 @@ namespace NaturePlanetSolutionCore.Controllers
             if (user == null)
                 return NotFound();
 
-            // Remove from both roles first
             if (await _userManager.IsInRoleAsync(user, "Admin"))
                 await _userManager.RemoveFromRoleAsync(user, "Admin");
             if (await _userManager.IsInRoleAsync(user, "User"))
                 await _userManager.RemoveFromRoleAsync(user, "User");
 
-            // Add to selected role
             if (!string.IsNullOrEmpty(role))
                 await _userManager.AddToRoleAsync(user, role);
             _logger.LogInformation("User role set: {UserId}, {Role}", user.Id, role);

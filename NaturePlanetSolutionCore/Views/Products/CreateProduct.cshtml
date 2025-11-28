@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const cat3 = document.getElementById("Product_Category_3");
 
     function updateCategories() {
-        // Hvis kategori 1 mangler → disable kat2 + kat3
         if (!cat1.value) {
             cat2.value = "";
             cat3.value = "";
@@ -75,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         cat2.disabled = false;
 
-        // Hvis kategori 2 mangler → disable kat3
         if (!cat2.value) {
             cat3.value = "";
             cat3.disabled = true;
@@ -88,6 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
     cat1.addEventListener("change", updateCategories);
     cat2.addEventListener("change", updateCategories);
 
-    updateCategories(); // initial check
+    updateCategories(); 
 });
 </script>

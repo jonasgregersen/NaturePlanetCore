@@ -29,7 +29,7 @@ namespace Test.StepDefinitions
             _email = email;
             _password = password;
 
-            // I princippet "opretter" vi brugeren – men UserManager er mocked, så det er nok
+           
             var user = new ApplicationUser { Email = email, UserName = email };
             await _userManager.CreateAsync(user, password);
         }

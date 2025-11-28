@@ -37,7 +37,6 @@ namespace NaturePlanetSolutionCore.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(IFormCollection collection)
         {
-            // Get cart object and user
             var cart = _cartService.GetCart();
             var user = await _userManager.GetUserAsync(User);
 
@@ -47,7 +46,6 @@ namespace NaturePlanetSolutionCore.Controllers
                 return View("Error");
             }
 
-            // Create DTO
             var dtoOrder = new DTOOrder
             {
                 Products = cart.Products,
@@ -56,7 +54,6 @@ namespace NaturePlanetSolutionCore.Controllers
                 OrderDate = DateTime.Now
             };
     
-            // Add the order
             _orderBLL.CreateOrder(dtoOrder);
             _logger.LogInformation("Order created successfully");
             _cartService.ClearCart();

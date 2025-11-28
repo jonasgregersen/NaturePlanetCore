@@ -12,7 +12,6 @@ public class RegisterUserSteps
 
     public RegisterUserSteps()
     {
-        // Hent UserManager fra vores egen DI-container
         _userManager = TestServiceProvider.Instance.GetRequiredService<UserManager<ApplicationUser>>();
     }
 

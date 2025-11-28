@@ -7,7 +7,7 @@ namespace DataAccessLayer.Model
     public class DALProduct
     {
         [Key]
-        [Column("ProductId")]  // ← matcher DB
+        [Column("ProductId")]  
         public string ProductId { get; set; } = string.Empty;
 
         [Column("Name")]
@@ -31,7 +31,6 @@ namespace DataAccessLayer.Model
         [Column("Segment")]
         public string Segment { get; set; } = string.Empty;
 
-        // MATCH DB: Product_Category_1
         [Column("Product_Category_1")]
         public string Product_Category_1 { get; set; } = string.Empty;
 

@@ -21,16 +21,13 @@ public static class TestServiceProvider
         );
 
 
-        // Mock af IUserPasswordStore<ApplicationUser>
         var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
 
-        // CreateAsync bruges af registration-step
         userStore.Setup(x => x.CreateAsync(
                 It.IsAny<ApplicationUser>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(IdentityResult.Success);
 
-        // Password-metoder, som UserManager forventer
         userStore.Setup(x => x.SetPasswordHashAsync(
                 It.IsAny<ApplicationUser>(),
                 It.IsAny<string>(),
@@ -47,7 +44,6 @@ public static class TestServiceProvider
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
-        // Hvis du vil være lidt pæn ift. login, kan du tilføje FindByNameAsync:
         userStore.Setup(x => x.FindByNameAsync(
                 It.IsAny<string>(),
                 It.IsAny<CancellationToken>()))
@@ -87,7 +83,6 @@ public static class TestServiceProvider
                 null, null, null, null
             );
 
-            // Selve login’et: vi siger bare "det lykkes"
             mock.Setup(m => m.PasswordSignInAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
