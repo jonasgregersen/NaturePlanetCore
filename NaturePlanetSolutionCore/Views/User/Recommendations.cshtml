@@ -1,0 +1,13 @@
+﻿@model List<DataTransferLayer.Model.ProductDto>
+
+<h1>@ViewBag.Recommendation</h1>
+
+<a asp-controller="User" asp-action="GetPopularRecommendations">Se populære produkter</a>
+<a asp-controller="User" asp-action="GetUserRecommendations">Se personlige anbefalinger</a>
+@foreach (var product in @Model)
+{
+    <div class="product-@product.Name">
+        <a asp-controller="Products" asp-action="Details" asp-route-productName="@product.Name" name="productName">@product.Name</a>
+        <p>@product.EAN</p>
+    </div>
+}

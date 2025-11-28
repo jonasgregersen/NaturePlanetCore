@@ -180,7 +180,7 @@ namespace NaturePlanetSolutionCore.Controllers
                 return RedirectToAction("Login");
             }
 
-            var orders = _orderBLL.GetUserOrders(user.Id);
+            var orders = await _orderBLL.GetUserOrders(user.Id);
             _logger.LogInformation("User orders requested: {UserId}", user.Id);
             return View(orders);
         }
@@ -294,6 +294,22 @@ namespace NaturePlanetSolutionCore.Controllers
             _cartService.SaveCart(cart);
             _logger.LogInformation("Product removed from cart: {ProductName}", productName);
             return View("Cart", cart);
+        }
+        [Authorize]
+        [HttpGet("User/Recommendations")]
+        public async Task<IActionResult> GetUserRecommendations()
+        {
+            var userId = _userManager.GetUserId(User);
+            var recommendations = await _productBLL.GetUserRecommendationsAsync(userId, 25);
+            ViewBag.Recommendation = "Personlige anbefalinger";
+            return View("Recommendations", recommendations);
+        }
+        [HttpGet("User/Recommendations/Popular")]
+        public async Task<IActionResult> GetPopularRecommendations()
+        {
+            var recommendations = await _productBLL.GetPopularProductsAsync(25);
+            ViewBag.Recommendation = "Populære produkter";
+            return View("Recommendations", recommendations);
         }
     }
 }

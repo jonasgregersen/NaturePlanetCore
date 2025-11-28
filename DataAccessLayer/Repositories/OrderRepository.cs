@@ -28,7 +28,7 @@ namespace DataAccessLayer.Repositories
 
         public List<DALOrder> GetAllOrders()
         {
-            return _context.Orders.ToList();
+            return _context.Orders.Include(o => o.Products).ToList();
         }
 
         public List<DALOrder> GetAllOrdersForUser(string id)
